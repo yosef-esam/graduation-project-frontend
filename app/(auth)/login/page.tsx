@@ -6,7 +6,7 @@ const page = () => {
   return (
     <section className="flex h-full w-full items-center justify-center py-8 md:py-12">
       <form className="flex h-full w-full flex-col gap-4 px-4 max-sm:justify-center lg:px-10">
-        <h1 className="text-(--primary_color) text-3xl font-bold md:text-4xl lg:text-5xl">
+        <h1 className="text-(--primary_color) text-3xl font-bold mb-4 md:text-4xl lg:text-5xl">
           Sign In{' '}
         </h1>
 

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   --background: #ffffff;
@@ -8,10 +8,15 @@
 }
 
 @theme inline {
- --primary_color:#023B26;
-  --secondary_color:#005B33;
- --offwhite_color:#B7B7B7;
-
+  --primary_color: #023b26;
+  --secondary_color: #005b33;
+  --offwhite_color: #b7b7b7;
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,8 +32,116 @@ body {
   font-family: var(--font-poppins), sans-serif;
 }
 
-@layer base{
-  a,button{
-    @apply cursor-pointer duration-300 transition-colors
+/* ==========================
+utility classes
+========================== */
+@utility container {
+  @apply mx-auto h-full px-4;
+}
+/* ==========================
+   Base styles
+   ========================== */
+@layer base {
+  /* Reset */
+  ::-webkit-scrollbar {
+    @apply h-1.5 w-1.5;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgb(226, 225, 225);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--secondary_color);
+    cursor: grab;
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    cursor: grabbing;
+  }
+
+  *,
+  *::before,
+  *::after {
+    @apply m-0 box-border p-0 outline-none;
+  }
+
+  ::selection {
+    background-color: var(--secondary_color);
+    color: white;
+  }
+
+  svg {
+    @apply w-6 transition-all;
+  }
+
+  path {
+    fill: currentColor !important;
+  }
+
+
+  a,
+  button {
+    @apply cursor-pointer transition-colors duration-300;
+  }
+
+  button {
+    @apply whitespace-nowrap;
+  }
+
+  select {
+    @apply appearance-none bg-transparent;
+  }
+
+  ul {
+    @apply list-none;
+  }
+
+  li {
+    @apply inline-block;
+  }
+
+  img,
+  svg {
+    @apply h-full select-none align-middle;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ==========================
+   Components
+   ========================== */
+@layer components {
+  /* md */
+  @media (min-width: theme(--breakpoint-md)) {
+    .container {
+      @apply w-[720px];
+    }
+  }
+
+  /* lg */
+  @media (min-width: theme(--breakpoint-lg)) {
+    .container {
+      @apply w-[992px];
+    }
+  }
+
+  /* xl */
+  @media (min-width: theme(--breakpoint-xl)) {
+    .container {
+      @apply w-[1200px];
+    }
+  }
+
+  /* 2xl */
+  @media (min-width: theme(--breakpoint-2xl)) {
+    .container {
+      @apply w-[1340px];
+    }
   }
 }

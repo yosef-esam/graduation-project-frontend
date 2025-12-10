@@ -9,6 +9,7 @@ interface InputFieldProps {
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string; 
+  defultValue?:string
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -20,6 +21,7 @@ const InputField: React.FC<InputFieldProps> = ({
   className = "",
   onChange,
   value,
+  defultValue
 }) => {
   return (
     <figure className={`flex flex-col gap-2 ${className}`}>
@@ -32,6 +34,7 @@ const InputField: React.FC<InputFieldProps> = ({
         name={name}
         placeholder={placeholder}
         value={value}
+        defaultValue={defultValue}
         onChange={onChange}
         className="rounded-lg border-2 p-4"
       />

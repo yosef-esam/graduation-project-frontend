@@ -9,14 +9,24 @@ import { useRouter } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
 
 const RegisterPage = () => {
-  const [form, setForm] = useState({
-    fullName: String,
-    email: String,
-    password: Number,
-    confirmPassword: Number,
-    role: Number,
-    phoneNumber: Number,
-  });
+  type RegisterForm = {
+    farmName: string;
+    fullName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+    role: string;
+    phoneNumber: string;
+  }
+ const [form, setForm] = useState<RegisterForm>({
+   farmName: '',
+   fullName: '',
+   email: '',
+   password: '',
+   confirmPassword: '',
+   role: '',
+   phoneNumber: '',
+ });
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
@@ -105,7 +115,7 @@ const RegisterPage = () => {
         />
         <InputField
           label="PhoneNumber"
-          placeholder="Enter Your PhoneNumbr"
+          placeholder="Enter Your PhoneNumber"
           id="PhoneNumber"
           name="PhoneNumber"
           type="number"
@@ -113,7 +123,7 @@ const RegisterPage = () => {
         />
 
         <Btn
-          text={loading ? 'Creating account...' : 'Creat account'}
+          text={loading ? 'Creating account...' : 'Create account'}
           type="submit"
         />
 

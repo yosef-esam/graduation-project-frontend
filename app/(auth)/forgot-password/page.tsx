@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import {
+  resetPasswordAction,
+  sendResetOtpAction,
+} from '@/app/actions/authActions';
 import Btn from '@/app/utils/Btn';
 import InputField from '@/app/utils/InputField';
+import React, { useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import {
-  sendResetOtpAction,
-  resetPasswordAction,
-} from '@/app/actions/authActions';
 
 export default function ForgotPassword() {
   const [form, setForm] = useState({ email: '' });
@@ -22,7 +22,7 @@ export default function ForgotPassword() {
   const [showOtpModal, setShowOtpModal] = useState(false);
 
   // STEP 1 — Send OTP
-  const handleSubmit = async e => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!form.email) return toast.error('Email is required');
@@ -30,6 +30,7 @@ export default function ForgotPassword() {
     try {
       setLoading(true);
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const res = await sendResetOtpAction(form.email);
 
       toast.success('OTP sent to your email');
@@ -38,14 +39,14 @@ export default function ForgotPassword() {
       setOtpForm(prev => ({ ...prev, email: form.email }));
       setShowOtpModal(true);
     } catch (error) {
-      toast.error(error.message || 'Failed to send OTP');
+      toast.error((error as Error).message || 'Failed to send OTP');
     } finally {
       setLoading(false);
     }
   };
 
   // STEP 2 — Submit OTP & New Password
-  const handleOtpSubmit = async e => {
+  const handleOtpSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!otpForm.resetCode || !otpForm.newPassword)
@@ -54,13 +55,14 @@ export default function ForgotPassword() {
     try {
       setOtpLoading(true);
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const res = await resetPasswordAction(otpForm);
 
       toast.success('Password updated successfully');
 
       setShowOtpModal(false);
     } catch (error) {
-      toast.error(error.message || 'Failed to reset password');
+      toast.error((error as Error).message || 'Failed to reset password');
     } finally {
       setOtpLoading(false);
     }

@@ -79,7 +79,7 @@ const RegisterPage = () => {
 
         <InputField
           label="PhoneNumber"
-          placeholder="Enter Your PhoneNumbr"
+          placeholder="Enter Your PhoneNumber"
           id="PhoneNumber"
           name="PhoneNumber"
           type="number"
@@ -87,7 +87,7 @@ const RegisterPage = () => {
         />
 
         <Btn
-          text={loading ? 'Creating account...' : 'Creat account'}
+          text={loading ? 'Creating account...' : 'Create account'}
           type="submit"
         />
 

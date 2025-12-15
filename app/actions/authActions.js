@@ -5,16 +5,10 @@ import { API_BASE_URL } from '../lib/api.js';
 
 // ------------------- Register -------------------
 export async function registerAction(formData) {
-  const res = await fetch(`${API_BASE_URL}/Auth/register`, {
+  const res = await fetch(`${API_BASE_URL}/authentication/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      userRequest: {
-        ...formData,
-        role: Number(formData.role),
-        phoneNumber: String(formData.phoneNumber),
-      },
-    }),
+    body: JSON.stringify(formData),
     cache: 'no-store',
   });
 
@@ -25,23 +19,85 @@ export async function registerAction(formData) {
 
 // ------------------- Login -------------------
 export async function loginAction({ email, password }) {
-  const res = await fetch(`${API_BASE_URL}/Auth/login`, {
+  const formData = new FormData();
+  formData.append('Email', email);
+  formData.append('Password', password);
+
+  const res = await fetch(`${API_BASE_URL}/authentication/signin`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
+    body: formData,
     cache: 'no-store',
   });
 
   const data = await res.json();
-  if (!res.ok) throw new Error(data.message || 'Login failed');
+  console.log(data);
+
+  if (!res.ok) {
+    throw new Error(data.message || 'Login failed');
+  }
 
   const cookieStore = await cookies();
-  cookieStore.set('access_token', data.data.accessToken, {
+  cookieStore.set('accessToken', data.data.accessToken, {
     httpOnly: true,
     secure: true,
     path: '/',
     maxAge: 60 * 60 * 24,
   });
+  if (data.data.refreshToken) {
+    cookieStore.set('refreshToken', data.data.refreshToken.token, {
+      httpOnly: true,
+      secure: true,
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+    });
+  }
+
+  return data;
+}
+export async function refreshTokenAction() {
+  const cookieStore = await cookies();
+
+  const accessToken = cookieStore.get('accessToken')?.value;
+  const refreshToken = cookieStore.get('refreshToken')?.value;
+
+  if (!refreshToken) {
+    throw new Error('No refresh token found');
+  }
+
+  const res = await fetch(`${API_BASE_URL}/authentication/refresh`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      accessToken,
+      refreshToken,
+    }),
+    cache: 'no-store',
+  });
+
+  const data = await res.json();
+  console.log(data);
+
+  if (!res.ok) {
+    throw new Error(data.message || 'Failed to refresh token');
+  }
+
+  cookieStore.set('accessToken', data.data.accessToken, {
+    httpOnly: true,
+    secure: true,
+    path: '/',
+    maxAge: 60 * 60 * 24,
+  });
+
+  if (data.data.refreshToken) {
+    cookieStore.set('refreshToken', data.data.refreshToken, {
+      httpOnly: true,
+      secure: true,
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+    });
+  }
 
   return data;
 }
@@ -51,7 +107,7 @@ export async function loginAction({ email, password }) {
 // ------------------------------------------------------
 export async function sendResetOtpAction(email) {
   const res = await fetch(
-    `${API_BASE_URL}/Password/SendResetPasswordOtp`,
+    `${API_BASE_URL}/authentication/send-reset-password-code`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -69,14 +125,14 @@ export async function sendResetOtpAction(email) {
 // ------------------------------------------------------
 // ✅ Reset Password (Forgot Password Step 2)
 // ------------------------------------------------------
-export async function resetPasswordAction({ email, otp, newPassword }) {
-  const res = await fetch(`${API_BASE_URL}/Password/ResetPassword`, {
-    method: 'PATCH',
+export async function resetPasswordAction({ email, resetCode, newPassword }) {
+  const res = await fetch(`${API_BASE_URL}/authentication/reset-password`, {
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       email,
-      otp,
-      newPassword
+      resetCode,
+      newPassword,
     }),
     cache: 'no-store',
   });

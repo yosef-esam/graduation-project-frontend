@@ -13,7 +13,7 @@ export default function ForgotPassword() {
   const [form, setForm] = useState({ email: '' });
   const [otpForm, setOtpForm] = useState({
     email: '',
-    otp: '',
+    resetCode: '',
     newPassword: '',
   });
 
@@ -48,7 +48,7 @@ export default function ForgotPassword() {
   const handleOtpSubmit = async e => {
     e.preventDefault();
 
-    if (!otpForm.otp || !otpForm.newPassword)
+    if (!otpForm.resetCode || !otpForm.newPassword)
       return toast.error('OTP & new password required');
 
     try {
@@ -124,8 +124,10 @@ export default function ForgotPassword() {
                 placeholder="Enter your OTP"
                 id="otp"
                 type="text"
-                value={otpForm.otp}
-                onChange={e => setOtpForm({ ...otpForm, otp: e.target.value })}
+                value={otpForm.resetCode}
+                onChange={e =>
+                  setOtpForm({ ...otpForm, resetCode: e.target.value })
+                }
               />
 
               {/* New Password */}

@@ -10,12 +10,10 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const RegisterPage = () => {
   const [form, setForm] = useState({
-    fullName: String,
-    email: String,
-    password: Number,
-    confirmPassword: Number,
-    role: Number,
-    phoneNumber: Number,
+    fullName: '',
+    email: '',
+    password: '',
+    phoneNumber: '',
   });
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -25,8 +23,9 @@ const RegisterPage = () => {
     setLoading(true);
 
     try {
-      await registerAction(form);
-      toast.success('Register successful! Redirecting...');
+      const res = await registerAction(form);
+
+      toast.success(res.message || 'Register successful!');
       router.push('login');
     } catch (err) {
       const errorMessage =
@@ -49,15 +48,6 @@ const RegisterPage = () => {
         </h1>
 
         <div className="flex flex-wrap items-center gap-4">
-          <InputField
-            label="Enter Your Farm’s Name"
-            placeholder="Enter Your Farm’s Name"
-            id="farmName"
-            name="farmName"
-            type="text"
-            className="flex-1"
-            onChange={e => setForm({ ...form, farmName: e.target.value })}
-          />
           <InputField
             label="Enter Your Name"
             placeholder="Enter Your Name"
@@ -87,22 +77,6 @@ const RegisterPage = () => {
           onChange={e => setForm({ ...form, password: e.target.value })}
         />
 
-        <InputField
-          label="Confirm Password"
-          placeholder="Enter Your Password Again"
-          id="confirmPassword"
-          name="confirmPassword"
-          type="password"
-          onChange={e => setForm({ ...form, confirmPassword: e.target.value })}
-        />
-        <InputField
-          label="Role"
-          placeholder="Enter Your Role"
-          id="Role"
-          name="Role"
-          type="number"
-          onChange={e => setForm({ ...form, role: e.target.value })}
-        />
         <InputField
           label="PhoneNumber"
           placeholder="Enter Your PhoneNumbr"

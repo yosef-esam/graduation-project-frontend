@@ -60,13 +60,17 @@ const Hero = () => {
           priority
           loading="eager"
         />
-        <h1 className="mb-4 text-4xl font-bold drop-shadow-lg sm:text-6xl">
-          <ShinyText
-            text="Welcome To Farm IQ"
-            disabled={false}
-            speed={3}
-            className="custom-class"
-          />
+        <h1
+          className={`mb-4 inline-block shine bg-clip-text text-4xl font-bold text-[#b5b5b5a4] drop-shadow-lg sm:text-6xl `}
+          style={{
+            backgroundImage:
+              'linear-gradient(120deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 60%)',
+            backgroundSize: '200% 100%',
+            WebkitBackgroundClip: 'text',
+            animationDuration: '5s',
+          }}
+        >
+          Welcome To Farm IQ
         </h1>
         <p className="mb-6 text-pretty text-lg drop-shadow-md sm:text-xl">
           AI-powered collars delivering real-time insights into cow health,

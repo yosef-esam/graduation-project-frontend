@@ -1,27 +1,26 @@
 'use client';
 
 import Lenis from '@studio-freight/lenis';
-import React, { createContext, useContext, useEffect, useRef } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 const LenisContext = createContext<Lenis | null>(null);
-
 export const useLenisContext = () => useContext(LenisContext);
 
 export function LenisProvider({ children }: { children: React.ReactNode }) {
-  const lenisRef = useRef<Lenis | null>(null);
+  const [lenis, setLenis] = useState<Lenis | null>(null);
 
   useEffect(() => {
-    const lenis = new Lenis({
+    const l = new Lenis({
       duration: 1.2,
       smoothWheel: true,
-      // smoothTouch removed (explained below)
+      smoothTouch: true,
     });
 
-    lenisRef.current = lenis;
+    setLenis(l);
 
     let rafId: number;
     const raf = (time: number) => {
-      lenis.raf(time);
+      l.raf(time);
       rafId = requestAnimationFrame(raf);
     };
 
@@ -29,14 +28,11 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
 
     return () => {
       cancelAnimationFrame(rafId);
-      lenis.destroy();
-      lenisRef.current = null;
+      l.destroy();
     };
   }, []);
 
   return (
-    <LenisContext.Provider value={lenisRef.current}>
-      {children}
-    </LenisContext.Provider>
+    <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>
   );
 }

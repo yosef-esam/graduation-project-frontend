@@ -118,10 +118,19 @@ export default function PixelCard({
   const animationRef = useRef<ReturnType<typeof requestAnimationFrame> | null>(
     null
   );
-  const timePreviousRef = useRef(performance.now());
-  const reducedMotion = useRef(
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  ).current;
+
+
+const timePreviousRef = useRef(0);
+const reducedMotionRef = useRef(false);
+useEffect(() => {
+  if (typeof window === 'undefined') return;
+
+  timePreviousRef.current = performance.now();
+
+  reducedMotionRef.current = window.matchMedia(
+    '(prefers-reduced-motion: reduce)'
+  ).matches;
+}, []);
 
   const initPixels = () => {
     if (!containerRef.current || !canvasRef.current) return;
@@ -147,7 +156,7 @@ export default function PixelCard({
         const dx = x - width / 2;
         const dy = y - height / 2;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        const delay = reducedMotion ? 0 : distance;
+        const delay = reducedMotionRef.current ? 0 : distance;
         pxs.push(
           new Pixel(
             canvasRef.current,
@@ -155,7 +164,7 @@ export default function PixelCard({
             x,
             y,
             color,
-            getEffectiveSpeed(speed, reducedMotion),
+            getEffectiveSpeed(speed, reducedMotionRef.current),
             delay
           )
         );

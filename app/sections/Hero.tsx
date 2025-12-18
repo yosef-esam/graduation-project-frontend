@@ -37,12 +37,12 @@ const Hero = () => {
       </figure>
 
       {/* SVG overlay */}
-      <figure className="pointer-events-none absolute inset-0 z-10 h-dvh w-full">
+      <figure className="pointer-events-none absolute inset-0 z-10">
         <Image
-          fill
-          className="object-cover"
           src="/images/landingPage/heroOverlay.svg"
           alt="overlay"
+          fill
+          className="object-cover"
           priority
         />
       </figure>

@@ -1,48 +1,38 @@
 'use client';
 
+import CanvasLoader from '@/app/utils/CanvasLoader';
+import HeroCanvas from '@/components/hero/HeroCanvas';
+import PixelBlast from '@/components/ui/PixelBlast';
 import Wave from '@/components/ui/Wave';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Suspense } from 'react';
-import dynamic from 'next/dynamic';
-import CanvasLoader from '@/app/utils/CanvasLoader';
 
-const HeroCanvas = dynamic(() => import('@/components/hero/HeroCanvas'), {
-  ssr: false,
-  loading: () => <CanvasLoader />,
-});
-
-const PixelBlast = dynamic(() => import('@/components/ui/PixelBlast'), {
-  ssr: false,
-  loading: () => <CanvasLoader />,
-});
 
 const Hero = () => {
   return (
     <header className="relative flex min-h-screen flex-col items-center justify-start bg-gray-900 pt-10 text-white">
       {/* Pixel background */}
       <figure className="absolute inset-0 top-10 m-auto h-full w-full">
-        <Suspense fallback={<CanvasLoader />}>
-          <PixelBlast
-            variant="square"
-            pixelSize={6}
-            color="#18B772"
-            patternScale={3}
-            patternDensity={1.2}
-            pixelSizeJitter={0.5}
-            enableRipples
-            rippleSpeed={0.4}
-            rippleThickness={0.12}
-            rippleIntensityScale={1.5}
-            liquid
-            liquidStrength={0.12}
-            liquidRadius={1.2}
-            liquidWobbleSpeed={5}
-            speed={0.6}
-            edgeFade={0.25}
-            transparent
-          />
-        </Suspense>
+        <PixelBlast
+          variant="square"
+          pixelSize={6}
+          color="#18B772"
+          patternScale={3}
+          patternDensity={1.2}
+          pixelSizeJitter={0.5}
+          enableRipples
+          rippleSpeed={0.4}
+          rippleThickness={0.12}
+          rippleIntensityScale={1.5}
+          liquid
+          liquidStrength={0.12}
+          liquidRadius={1.2}
+          liquidWobbleSpeed={5}
+          speed={0.6}
+          edgeFade={0.25}
+          transparent
+        />
       </figure>
 
       {/* SVG overlay */}
@@ -58,9 +48,7 @@ const Hero = () => {
 
       {/* 3D Canvas */}
       <figure className="absolute inset-0 z-20 h-screen w-full">
-        <Suspense fallback={<CanvasLoader />}>
-          <HeroCanvas />
-        </Suspense>
+        <HeroCanvas />
       </figure>
 
       {/* Content */}

@@ -1,6 +1,7 @@
 'use client';
 
 import { LenisProvider } from '@/app/providers/LenisProvider';
+// import Articles from '@/app/sections/Articles';
 import Collars from '@/app/sections/Collars';
 import Explanation from '@/app/sections/Explanation';
 import ExplanationTwo from '@/app/sections/ExplanationTwo';

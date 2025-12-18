@@ -164,7 +164,7 @@ export default function PixelCard({
             x,
             y,
             color,
-            getEffectiveSpeed(speed, reducedMotion),
+            getEffectiveSpeed(speed, reducedMotionRef.current),
             delay
           )
         );

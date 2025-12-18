@@ -65,7 +65,7 @@ const Statistics = () => {
         />
       </figure>
 
-      <h2 className="pointer-events-none my-10 px-4 text-center text-3xl font-semibold text-gray-900 md:text-[3.5rem]">
+      <h2 className="pointer-events-none my-10 px-4 text-center text-3xl font-semibold text-gray-900 md:text-[4rem]">
         {' '}
         world wide statistics
       </h2>
@@ -80,7 +80,7 @@ const Statistics = () => {
             to={120}
             separator=","
             duration={1.5}
-            className="text-[3.5rem] font-bold text-green-800"
+            className="text-[4rem] font-bold text-green-800"
           />
           <h3 className=" text-center font-medium text-lg text-gray-700">
             Cows Monitored
@@ -96,7 +96,7 @@ const Statistics = () => {
             to={95}
             separator=","
             duration={1.5}
-            className="text-[3.5rem] font-bold text-blue-800"
+            className="text-[4rem] font-bold text-blue-800"
           />
           <h3 className=" text-center font-medium text-lg text-gray-700">
             Sensors Active
@@ -112,7 +112,7 @@ const Statistics = () => {
             to={30}
             separator=","
             duration={1.5}
-            className="text-[3.5rem] font-bold text-yellow-800"
+            className="text-[4rem] font-bold text-yellow-800"
           />
           <h3 className=" text-center font-medium text-lg text-gray-700">
             AI Alerts Sent

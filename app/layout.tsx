@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Poppins } from 'next/font/google'; // add Poppins
 import './globals.css';
 import { LenisProvider } from '@/app/providers/LenisProvider';
+import { ThreeLoaderProvider } from '@/app/contexts/ThreeLoaderContext';
+import ThreeLoader from '@/components/ui/ThreeLoader';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -34,7 +36,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
       >
-        <LenisProvider>{children}</LenisProvider>{' '}
+        <ThreeLoaderProvider>
+          <ThreeLoader />
+          <LenisProvider>{children}</LenisProvider>{' '}
+        </ThreeLoaderProvider>
       </body>
     </html>
   );

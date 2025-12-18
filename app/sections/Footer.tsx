@@ -19,8 +19,9 @@ const Footer = () => {
             alt="Farm AI Logo"
             width={200}
             height={100}
-            className="mb-4"
+            className="max-w-50 mb-4 h-auto w-full"
           />
+
           <p className="max-w-xs text-gray-400">
             Smart farm solutions powered by AI. Monitor your cows, track
             sensors, and optimize farm productivity with Collar Cow AI.
@@ -63,7 +64,7 @@ const Footer = () => {
         </article>
 
         {/* Social Links */}
-        <article className="max-h-fit flex flex-[1_1_250px] flex-col gap-4">
+        <article className="flex max-h-fit flex-[1_1_250px] flex-col gap-4">
           <h3 className="mb-2 font-semibold text-white">Follow Us</h3>
           <div className="flex gap-4">
             <a

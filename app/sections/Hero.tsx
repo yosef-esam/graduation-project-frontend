@@ -1,10 +1,14 @@
-import HeroCanvas from '@/components/hero/HeroCanvas';
+'use client';
 import PixelBlast from '@/components/ui/PixelBlast';
 import ShinyText from '@/components/ui/Shuffle';
 import Wave from '@/components/ui/Wave';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 
+const HeroCanvas = dynamic(() => import('@/components/hero/HeroCanvas'), {
+  ssr: false,
+});
 const Hero = () => {
   return (
     <header className="relative flex min-h-screen flex-col items-center justify-start bg-gray-900 pt-10 text-white">
@@ -61,7 +65,7 @@ const Hero = () => {
           loading="eager"
         />
         <h1
-          className={`mb-4 inline-block shine bg-clip-text text-4xl font-bold text-[#b5b5b5a4] drop-shadow-lg sm:text-6xl `}
+          className={`shine mb-4 inline-block bg-clip-text text-4xl font-bold text-[#b5b5b5a4] drop-shadow-lg sm:text-6xl`}
           style={{
             backgroundImage:
               'linear-gradient(120deg, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 60%)',

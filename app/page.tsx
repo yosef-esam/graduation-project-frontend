@@ -1,3 +1,5 @@
+'use client';
+
 import { LenisProvider } from '@/app/providers/LenisProvider';
 import Collars from '@/app/sections/Collars';
 import Explanation from '@/app/sections/Explanation';
@@ -7,17 +9,20 @@ import Footer from '@/app/sections/Footer';
 import Hero from '@/app/sections/Hero';
 import Statistics from '@/app/sections/Statistics';
 
+// Force dynamic rendering to avoid SSR issues with R3F
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
   return (
     <main className="min-h-screen overflow-hidden">
       <LenisProvider>
-      <Hero />
-      <Collars />
-      <Explanation />
-      <Features />
-      <ExplanationTwo />
-      <Statistics/>
-      <Footer/>
+        <Hero />
+        <Collars />
+        <Explanation />
+        <Features />
+        <ExplanationTwo />
+        <Statistics />
+        <Footer />
       </LenisProvider>
     </main>
   );

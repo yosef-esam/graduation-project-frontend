@@ -1,4 +1,3 @@
-// app/(auth)/layout.tsx
 'use client';
 import Image from 'next/image';
 

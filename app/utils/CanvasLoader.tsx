@@ -4,6 +4,8 @@ import { Html, useProgress } from '@react-three/drei';
 import { useEffect, useState } from 'react';
 
 const CanvasLoader: React.FC = () => {
+  // useProgress must be called unconditionally, but it's safe here since
+  // this component is only used inside a Canvas (via Suspense fallback)
   const { progress } = useProgress();
   const [safeProgress, setSafeProgress] = useState<number>(0);
 

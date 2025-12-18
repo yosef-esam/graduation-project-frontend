@@ -1,18 +1,24 @@
 'use client';
 
-import CanvasLoader from '@/app/utils/CanvasLoader';
-import HeroCanvas from '@/components/hero/HeroCanvas';
-import PixelBlast from '@/components/ui/PixelBlast';
-import Wave from '@/components/ui/Wave';
 import dynamic from 'next/dynamic';
+import CanvasLoader from '@/app/utils/CanvasLoader';
+import Wave from '@/components/ui/Wave';
 import Image from 'next/image';
 import Link from 'next/link';
 
+const HeroCanvas = dynamic(() => import('@/components/hero/HeroCanvas'), {
+  ssr: false,
+  loading: () => <CanvasLoader />,
+});
 
-const Hero = () => {
+const PixelBlast = dynamic(() => import('@/components/ui/PixelBlast'), {
+  ssr: false,
+  loading: () => <CanvasLoader />,
+});
+
+export default function Hero() {
   return (
     <header className="relative flex min-h-screen flex-col items-center justify-start bg-gray-900 pt-10 text-white">
-      {/* Pixel background */}
       <figure className="absolute inset-0 top-10 m-auto h-full w-full">
         <PixelBlast
           variant="square"
@@ -35,23 +41,10 @@ const Hero = () => {
         />
       </figure>
 
-      {/* SVG overlay */}
-      <figure className="pointer-events-none absolute inset-0 z-10">
-        <Image
-          src="/images/landingPage/heroOverlay.svg"
-          alt="overlay"
-          fill
-          className="object-cover"
-          priority
-        />
-      </figure>
-
-      {/* 3D Canvas */}
       <figure className="absolute inset-0 z-20 h-screen w-full">
         <HeroCanvas />
       </figure>
 
-      {/* Content */}
       <article className="pointer-events-none relative z-30 flex max-w-3xl flex-col items-center justify-center px-6 text-center sm:px-12">
         <Image
           src="/images/logo.svg"
@@ -61,20 +54,9 @@ const Hero = () => {
           className="w-full max-w-[200px]"
           priority
         />
-
-        <h1
-          className="shine mb-4 inline-block bg-clip-text text-4xl font-bold text-[#b5b5b5a4] drop-shadow-lg sm:text-6xl"
-          style={{
-            backgroundImage:
-              'linear-gradient(120deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 60%)',
-            backgroundSize: '200% 100%',
-            WebkitBackgroundClip: 'text',
-            animationDuration: '5s',
-          }}
-        >
+        <h1 className="shine mb-4 inline-block bg-clip-text text-4xl font-bold text-[#b5b5b5a4] drop-shadow-lg sm:text-6xl">
           Welcome To Farm IQ
         </h1>
-
         <p className="mb-6 text-lg drop-shadow-md sm:text-xl">
           AI-powered collars delivering real-time insights into cow health,
           behavior, and productivity — so farmers can act faster and care
@@ -82,7 +64,6 @@ const Hero = () => {
         </p>
       </article>
 
-      {/* CTAs */}
       <div className="absolute top-80 z-40 flex flex-wrap items-center justify-center gap-6">
         <Link
           href="/register"
@@ -90,7 +71,6 @@ const Hero = () => {
         >
           Get Started
         </Link>
-
         <Link
           href="#"
           className="hover:bg-(--secondary_color) rounded-lg border-2 border-white px-6 py-3 font-semibold transition hover:border-transparent"
@@ -102,6 +82,4 @@ const Hero = () => {
       <Wave />
     </header>
   );
-};
-
-export default Hero;
+}

@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <main className="min-h-screen overflow-hidden">
       <LenisProvider>
-      <Hero />
+      {/* <Hero /> */}
       <Collars />
       <Explanation />
       <Features />

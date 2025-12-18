@@ -1,6 +1,6 @@
 'use client';
 
-import { BarChart, Bar, XAxis, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, ResponsiveContainer,  } from 'recharts';
 
 const data = [
   { day: 'Mon', value: 65, max: 85 },

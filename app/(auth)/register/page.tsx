@@ -1,61 +1,108 @@
-import Btn from "@/app/utils/Btn";
-import InputField from "@/app/utils/InputField";
-import Link from "next/link";
+'use client';
 
-const page = () => {
+import { useState } from 'react';
+import Btn from '@/app/utils/Btn';
+import InputField from '@/app/utils/InputField';
+import Link from 'next/link';
+import { registerAction } from '@/app/actions/authActions';
+import { useRouter } from 'next/navigation';
+import toast, { Toaster } from 'react-hot-toast';
+
+const RegisterPage = () => {
+  const [form, setForm] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    phoneNumber: '',
+  });
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await registerAction(form);
+
+      toast.success(res.message || 'Register successful!');
+      router.push('login');
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : 'An error occurred';
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="flex h-full w-full items-center justify-center py-8 md:py-12">
-      <form className="flex h-full w-full max-sm:justify-center flex-col gap-4 px-4 lg:px-10">
-        <h1 className="text-(--primary_color) text-3xl md:text-4xl lg:text-5xl mb-4 font-bold">
+      <Toaster position="top-right" reverseOrder={false} />
+      <form
+        onSubmit={handleSubmit}
+        className="flex h-full w-full flex-col gap-4 px-4 max-sm:justify-center lg:px-10"
+      >
+        <h1 className="text-(--primary_color) mb-4 text-3xl font-bold md:text-4xl lg:text-5xl">
           Create Account
         </h1>
+
         <div className="flex flex-wrap items-center gap-4">
-          <InputField
-            label="Enter Your Farm’s Name"
-            placeholder="Enter Your Farm’s Name"
-            id="farmName"
-            name="farmName"
-            type="text"
-            className="flex-1"
-          />
           <InputField
             label="Enter Your Name"
             placeholder="Enter Your Name"
-            id="userName"
-            name="userName"
+            id="fullName"
+            name="fullName"
             type="text"
             className="flex-1"
+            onChange={e => setForm({ ...form, fullName: e.target.value })}
           />
         </div>
+
         <InputField
           label="Email Address"
           placeholder="Enter Your Email"
           id="email"
           name="email"
           type="email"
+          onChange={e => setForm({ ...form, email: e.target.value })}
         />
+
         <InputField
           label="Password"
           placeholder="Enter Your Password"
           id="password"
           name="password"
           type="password"
-        />
-        <InputField
-          label="Confirm Password"
-          placeholder="Enter Your Password Again"
-          id="confirmPassword"
-          name="confirmPassword"
-          type="password"
+          onChange={e => setForm({ ...form, password: e.target.value })}
         />
 
-        <Btn text="Create Account" type="submit" />
-        <span className="flex items-center gap-1 text-(--offwhite_color)">
-          already have an account ? <Link href="/login" className="underline text-(--primary_color) font-bold">LOGIN</Link>
+        <InputField
+          label="PhoneNumber"
+          placeholder="Enter Your PhoneNumber"
+          id="PhoneNumber"
+          name="PhoneNumber"
+          type="number"
+          onChange={e => setForm({ ...form, phoneNumber: e.target.value })}
+        />
+
+        <Btn
+          text={loading ? 'Creating account...' : 'Create account'}
+          type="submit"
+        />
+
+        <span className="text-(--offwhite_color) flex items-center gap-1">
+          already have an account ?{' '}
+          <Link
+            href="/login"
+            className="text-(--primary_color) font-bold underline"
+          >
+            LOGIN
+          </Link>
         </span>
       </form>
     </section>
   );
 };
 
-export default page;
+export default RegisterPage;

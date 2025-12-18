@@ -1,12 +1,21 @@
 'use client';
 
-import CanvasLoader from '@/app/utils/CanvasLoader';
-import HeroCanvas from '@/components/hero/HeroCanvas';
-import PixelBlast from '@/components/ui/PixelBlast';
 import Wave from '@/components/ui/Wave';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
+import CanvasLoader from '@/app/utils/CanvasLoader';
+
+const HeroCanvas = dynamic(() => import('@/components/hero/HeroCanvas'), {
+  ssr: false,
+  loading: () => <CanvasLoader />,
+});
+
+const PixelBlast = dynamic(() => import('@/components/ui/PixelBlast'), {
+  ssr: false,
+  loading: () => <CanvasLoader />,
+});
 
 const Hero = () => {
   return (

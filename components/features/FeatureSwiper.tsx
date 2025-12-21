@@ -52,140 +52,85 @@ const featureData = [
 ];
 
 const FeaturesSwiper = () => {
+  const renderSlides = (data: typeof featureData) =>
+    data.map((f, idx) => (
+      <SwiperSlide key={idx}>
+        <div className="flex h-full flex-col  rounded border border-black/15 bg-white p-4">
+          <Image
+            src={f.imageSrc}
+            alt={f.title}
+            width={300}
+            height={200}
+            className="mb-2 w-full rounded object-cover"
+          />
+          <h3 className="text-lg font-semibold">{f.title}</h3>
+          <p className="text-sm">{f.description}</p>
+        </div>
+      </SwiperSlide>
+    ));
+
   return (
     <div className="container mx-auto">
       <Swiper
         modules={[Autoplay, Pagination]}
-        spaceBetween={40}
-        slidesPerView={1}
+        spaceBetween={30}
+        slidesPerView={1} // mobile-first default
+        breakpoints={{
+          640: { slidesPerView: 2 }, // ≥640px → 2 slides
+          1024: { slidesPerView: 3 }, // ≥1024px → 3 slides
+        }}
         pagination={{ clickable: true }}
-        autoplay={{ delay: 4000 }}
+        autoplay={{
+          delay: 4000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        }}
         loop
+        speed={1000}
       >
-        {/* Pyramid Slide */}
-        <SwiperSlide>
-          <div className="flex flex-col items-center gap-6">
-            {/* Row 1 → 2 items */}
-            <div className="grid grid-cols-2 gap-6">
-              {featureData.slice(0, 2).map((f, idx) => (
-                <div
-                  key={idx}
-                  className="flex flex-col rounded border border-black/15 bg-white p-6"
-                >
-                  <Image
-                    src={f.imageSrc}
-                    alt={f.title}
-                    width={300}
-                    height={200}
-                    className="mb-4 w-full rounded object-cover"
-                  />
-                  <h3 className="mb-2 text-xl font-semibold">{f.title}</h3>
-                  <p className="text-sm">{f.description}</p>
-                </div>
-              ))}
-            </div>
+        {renderSlides(featureData)}
+      </Swiper>
 
-            {/* Row 2 → 3 items */}
-            <div className="grid grid-cols-3 gap-6">
-              {featureData.slice(2, 5).map((f, idx) => (
-                <div
-                  key={idx}
-                  className="flex flex-col rounded border border-black/15 bg-white p-6"
-                >
-                  <Image
-                    src={f.imageSrc}
-                    alt={f.title}
-                    width={300}
-                    height={200}
-                    className="mb-4 w-full rounded object-cover"
-                  />
-                  <h3 className="mb-2 text-xl font-semibold">{f.title}</h3>
-                  <p className="text-sm">{f.description}</p>
-                </div>
-              ))}
-            </div>
+      {/* Middle Swiper → 2 slides default, responsive */}
+      <Swiper
+        modules={[Autoplay, Pagination]}
+        spaceBetween={30}
+        slidesPerView={1} // mobile-first default
+        breakpoints={{
+          640: { slidesPerView: 2 }, // ≥640px → 2 slides
+        }}
+        pagination={{ clickable: true }}
+        autoplay={{
+          delay: 4500,
+          disableOnInteraction: false,
+          reverseDirection: true,
+          pauseOnMouseEnter: true,
+        }}
+        loop
+        speed={1200}
+      >
+        {renderSlides(featureData)}
+      </Swiper>
 
-            {/* Row 3 → 2 items */}
-            <div className="grid grid-cols-2 gap-6">
-              {featureData.slice(5, 7).map((f, idx) => (
-                <div
-                  key={idx}
-                  className="flex flex-col rounded border border-black/15 bg-white p-6"
-                >
-                  <Image
-                    src={f.imageSrc}
-                    alt={f.title}
-                    width={300}
-                    height={200}
-                    className="mb-4 w-full rounded object-cover"
-                  />
-                  <h3 className="mb-2 text-xl font-semibold">{f.title}</h3>
-                  <p className="text-sm">{f.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </SwiperSlide>
-
-        {/* Duplicate slides to cycle all 8 features */}
-        <SwiperSlide>
-          <div className="flex flex-col items-center gap-6">
-            <div className="grid grid-cols-2 gap-6">
-              {featureData.slice(1, 3).map((f, idx) => (
-                <div
-                  key={idx}
-                  className="flex flex-col rounded border border-black/15 bg-white p-6"
-                >
-                  <Image
-                    src={f.imageSrc}
-                    alt={f.title}
-                    width={300}
-                    height={200}
-                    className="mb-4 w-full rounded object-cover"
-                  />
-                  <h3 className="mb-2 text-xl font-semibold">{f.title}</h3>
-                  <p className="text-sm">{f.description}</p>
-                </div>
-              ))}
-            </div>
-            <div className="grid grid-cols-3 gap-6">
-              {featureData.slice(3, 6).map((f, idx) => (
-                <div
-                  key={idx}
-                  className="flex flex-col rounded border border-black/15 bg-white p-6"
-                >
-                  <Image
-                    src={f.imageSrc}
-                    alt={f.title}
-                    width={300}
-                    height={200}
-                    className="mb-4 w-full rounded object-cover"
-                  />
-                  <h3 className="mb-2 text-xl font-semibold">{f.title}</h3>
-                  <p className="text-sm">{f.description}</p>
-                </div>
-              ))}
-            </div>
-            <div className="grid grid-cols-2 gap-6">
-              {featureData.slice(6, 8).map((f, idx) => (
-                <div
-                  key={idx}
-                  className="flex flex-col rounded border border-black/15 bg-white p-6"
-                >
-                  <Image
-                    src={f.imageSrc}
-                    alt={f.title}
-                    width={300}
-                    height={200}
-                    className="mb-4 w-full rounded object-cover"
-                  />
-                  <h3 className="mb-2 text-xl font-semibold">{f.title}</h3>
-                  <p className="text-sm">{f.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </SwiperSlide>
+      {/* Bottom Swiper → 3 slides default, responsive */}
+      <Swiper
+        modules={[Autoplay, Pagination]}
+        spaceBetween={30}
+        slidesPerView={1} // mobile-first default
+        breakpoints={{
+          640: { slidesPerView: 2 }, // ≥640px → 2 slides
+          1024: { slidesPerView: 3 }, // ≥1024px → 3 slides
+        }}
+        pagination={{ clickable: true }}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+        }}
+        loop
+        speed={1100}
+      >
+        {renderSlides(featureData)}
       </Swiper>
     </div>
   );

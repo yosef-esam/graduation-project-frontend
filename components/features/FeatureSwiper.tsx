@@ -8,12 +8,6 @@ import 'swiper/css/pagination';
 
 const featureData = [
   {
-    title: 'Accurate Heat Detection',
-    description:
-      'Smart technology for heat detection and fertility management. Sensitive, Proven, Smart algorithms for heifers and cows in open barns, free-stalls, and grazing regimes.',
-    imageSrc: '/images/landingPage/features.jpg',
-  },
-  {
     title: 'Reliable and Durable',
     description:
       'Leverage 40 years of experience and development. Mechanical design made to last and withstand harsh farm conditions.',
@@ -40,7 +34,7 @@ const featureData = [
   {
     title: 'Increased Productivity',
     description:
-      'A rested, comfortable cow is productive. 1 lost hour of resting time = 1.7kg/2.2lb of milk lost. Use AfiAct II with AfiFarm software.',
+      'A rested, comfortable cow is productive. 1 lost hour of resting time = 1.7kg/2.2lb of milk lost. Use farmIqAct II with farmIqFarm software.',
     imageSrc: '/images/landingPage/p6.jpg',
   },
   {
@@ -76,8 +70,7 @@ const FeaturesSwiper = () => {
     ));
 
   return (
-    <div className="container mx-auto space-y-12">
-      {/* Top Swiper → 3 slides default, responsive */}
+    <div className="container mx-auto">
       <Swiper
         modules={[Autoplay, Pagination]}
         spaceBetween={30}

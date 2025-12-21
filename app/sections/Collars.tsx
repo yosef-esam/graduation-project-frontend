@@ -1,24 +1,26 @@
 // app/sections/Collars.tsx (server component)
 
-import CollarArticleWrapper from "@/components/collars/CollarArticleWrapper";
+import CollarArticleWrapper from '@/components/collars/CollarArticleWrapper';
 
 const Collars = async () => {
   const collarsData = [
     {
       backgroundSrc: '/images/landingPage/collarOneGrid.jpg',
-      titleImageSrc: '/images/landingPage/aficollar.svg',
-      titleAlt: 'AfiCollar',
-  description:"AfiCollar provides accurate heat detection and continuous health monitoring, helping farmers improve fertility, animal welfare, and operational efficiency.",
+      titleImageSrc: '/images/logo.svg',
+      titleAlt: 'farmIqCollar',
+      description:
+        'farmIqCollar provides accurate  continuous health monitoring, helping farmers improve fertility, animal welfare, and operational efficiency.',
       subDescription: `Using advanced motion ...`,
       innerImageSrc: '/images/landingPage/collarOne.png',
       readMoreHref: '#collarOne',
     },
     {
       backgroundSrc: '/images/landingPage/collarTwoGrid.jpg',
-      titleImageSrc: '/images/landingPage/afiact.svg',
-      titleAlt: 'AfiAct II',
-  description:"AfiAct II delivers real-time behavior insights, calving alerts, and wellbeing indicators for smarter herd management.",
-       subDescription: `Designed for high-precision activity ...`,
+      titleImageSrc: '/images/logo.svg',
+      titleAlt: 'farmIqAct II',
+      description:
+        'farmIqAct II delivers real-time behavior insights, calving alerts, and wellbeing indicators for smarter herd management.',
+      subDescription: `Designed for high-precision activity ...`,
       innerImageSrc: '/images/landingPage/collarTwo.png',
       readMoreHref: '#collarTwo',
     },

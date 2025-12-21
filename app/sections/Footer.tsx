@@ -1,11 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import {
-  FaFacebookF,
-  FaLinkedinIn,
-  FaInstagram,
-} from 'react-icons/fa';
+import { FaFacebookF, FaLinkedinIn, FaInstagram } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 
 const Footer = () => {
@@ -24,7 +20,7 @@ const Footer = () => {
 
           <p className="max-w-xs text-gray-400">
             Smart farm solutions powered by AI. Monitor your cows, track
-            sensors, and optimize farm productivity with Collar Cow AI.
+            sensors, and optimize farm productivity .
           </p>
         </article>
 

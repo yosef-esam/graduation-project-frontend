@@ -18,7 +18,8 @@ const nextConfig: NextConfig = {
       }
     ]
   },
-  cacheComponents: true,
+  // Disable cacheComponents to allow dynamic route config
+  // cacheComponents: true,
   reactCompiler: true,
   skipTrailingSlashRedirect: true,
 };

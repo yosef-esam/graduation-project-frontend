@@ -61,6 +61,9 @@ const Cube: React.FC<CubeProps> = ({ ...props }) => {
   );
 };
 
-useGLTF.preload('models/cube.glb');
+// Preload only on client side to avoid SSR issues
+if (typeof window !== 'undefined') {
+  useGLTF.preload('models/cube.glb');
+}
 
 export default Cube;

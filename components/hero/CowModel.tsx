@@ -106,4 +106,7 @@ export function CowModel(props: GroupProps) {
   );
 }
 
-useGLTF.preload('/models/cow_havest_moon.glb');
+// Preload only on client side to avoid SSR issues
+if (typeof window !== 'undefined') {
+  useGLTF.preload('/models/cow_havest_moon.glb');
+}

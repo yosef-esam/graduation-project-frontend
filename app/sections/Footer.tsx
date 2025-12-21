@@ -1,11 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import {
-  FaFacebookF,
-  FaLinkedinIn,
-  FaInstagram,
-} from 'react-icons/fa';
+import { FaFacebookF, FaLinkedinIn, FaInstagram } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 
 const Footer = () => {
@@ -23,7 +19,7 @@ const Footer = () => {
           />
           <p className="max-w-xs text-gray-400">
             Smart farm solutions powered by AI. Monitor your cows, track
-            sensors, and optimize farm productivity with Collar Cow AI.
+            sensors, and optimize farm productivity .
           </p>
         </article>
 
@@ -63,7 +59,7 @@ const Footer = () => {
         </article>
 
         {/* Social Links */}
-        <article className="max-h-fit flex flex-[1_1_250px] flex-col gap-4">
+        <article className="flex max-h-fit flex-[1_1_250px] flex-col gap-4">
           <h3 className="mb-2 font-semibold text-white">Follow Us</h3>
           <div className="flex gap-4">
             <a

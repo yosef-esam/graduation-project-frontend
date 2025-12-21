@@ -77,7 +77,7 @@ const Statistics = () => {
         >
           <CountUp
             from={0}
-            to={120}
+            to={0}
             separator=","
             duration={1.5}
             className="text-[3.5rem] font-bold text-green-800"
@@ -93,7 +93,7 @@ const Statistics = () => {
         >
           <CountUp
             from={0}
-            to={95}
+            to={0}
             separator=","
             duration={1.5}
             className="text-[3.5rem] font-bold text-blue-800"
@@ -109,7 +109,7 @@ const Statistics = () => {
         >
           <CountUp
             from={0}
-            to={30}
+            to={0}
             separator=","
             duration={1.5}
             className="text-[3.5rem] font-bold text-yellow-800"

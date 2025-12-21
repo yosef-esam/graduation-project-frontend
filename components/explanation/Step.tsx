@@ -10,15 +10,15 @@ interface StepProps {
   subtitle?: string;
   variant: StepVariant;
   benefits?: string[];
-  description?:string;
+  description?: string;
   stepImage: string;
   ctaText?: string;
   ctaHref?: string;
 }
 
 const variantImageMap: Record<StepVariant, string> = {
-  first: '/images/landingPage/aficollar-black.svg',
-  second: '/images/landingPage/aficollarTwo-black.svg',
+  first: '/images/logo.svg',
+  second: '/images/logo.svg',
 };
 
 const Step: React.FC<StepProps> = ({

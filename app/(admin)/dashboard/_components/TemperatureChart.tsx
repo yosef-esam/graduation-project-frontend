@@ -1,4 +1,13 @@
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
+'use client';
+
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  Tooltip,
+} from 'recharts';
 
 const data = [
   { time: '12am', temp: 38.2 },
@@ -13,10 +22,10 @@ const data = [
 
 export function TemperatureChart() {
   return (
-    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-      <div className="flex items-start justify-between mb-6">
+    <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm">
+      <div className="mb-6 flex items-start justify-between">
         <div>
-          <h3 className="font-semibold mb-1">Temperature Trends</h3>
+          <h3 className="mb-1 font-semibold">Temperature Trends</h3>
           <p className="text-xs text-gray-500">Last 24 Hours</p>
         </div>
         <div className="text-right">
@@ -27,25 +36,25 @@ export function TemperatureChart() {
 
       <ResponsiveContainer width="100%" height={200}>
         <LineChart data={data}>
-          <XAxis 
-            dataKey="time" 
+          <XAxis
+            dataKey="time"
             axisLine={false}
             tickLine={false}
             tick={{ fill: '#9CA3AF', fontSize: 12 }}
           />
           <YAxis hide />
-          <Tooltip 
-            contentStyle={{ 
-              background: 'white', 
+          <Tooltip
+            contentStyle={{
+              background: 'white',
               border: '1px solid #E5E7EB',
               borderRadius: '8px',
-              fontSize: '12px'
+              fontSize: '12px',
             }}
           />
-          <Line 
-            type="monotone" 
-            dataKey="temp" 
-            stroke="#10B981" 
+          <Line
+            type="monotone"
+            dataKey="temp"
+            stroke="#10B981"
             strokeWidth={3}
             dot={false}
           />

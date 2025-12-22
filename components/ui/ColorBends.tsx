@@ -1,6 +1,6 @@
 'use client'
+import THREE from '@/lib/three';
 import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
 
 type ColorBendsProps = {
   className?: string;

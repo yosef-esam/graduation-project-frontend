@@ -15,8 +15,9 @@ const Footer = () => {
             alt="Farm AI Logo"
             width={200}
             height={100}
-            className="mb-4"
+            className="max-w-50 mb-4 h-auto w-full"
           />
+
           <p className="max-w-xs text-gray-400">
             Smart farm solutions powered by AI. Monitor your cows, track
             sensors, and optimize farm productivity .

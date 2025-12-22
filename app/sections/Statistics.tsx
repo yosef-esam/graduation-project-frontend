@@ -43,7 +43,7 @@ const Statistics = () => {
   }, [inView]);
 
   return (
-    <section ref={ref} className="pb-20">
+    <section ref={ref} id="statis" className="pb-20">
       <figure className="relative isolate flex h-fit w-full items-center justify-center overflow-hidden rounded-3xl drop-shadow-[0px_0px_100px_#1788df] sm:h-[326px]">
         <Globe
           ref={globeRef}
@@ -65,7 +65,7 @@ const Statistics = () => {
         />
       </figure>
 
-      <h2 className="pointer-events-none my-10 px-4 text-center text-3xl font-semibold text-gray-900 md:text-[3.5rem]">
+      <h2 className="pointer-events-none my-10 px-4 text-center text-3xl font-semibold text-gray-900 md:text-7xl">
         {' '}
         world wide statistics
       </h2>
@@ -73,48 +73,48 @@ const Statistics = () => {
       <div className="container flex flex-wrap items-center justify-center gap-8 md:justify-around">
         <PixelCard
           colors="#a3e635,#d9f99d,#f0fdf4,#bef264"
-          className="flex w-full flex-col max-h-65 items-center justify-center rounded-2xl border border-green-200 bg-green-50 p-6 shadow-md transition-shadow duration-300 hover:shadow-lg xs:max-w-75"
+          className="max-h-65 xs:max-w-75 flex w-full flex-col items-center justify-center rounded-2xl border border-green-200 bg-green-50 p-6 shadow-md transition-shadow duration-300 hover:shadow-lg"
         >
           <CountUp
             from={0}
-            to={0}
+            to={120}
             separator=","
             duration={1.5}
-            className="text-[3.5rem] font-bold text-green-800"
+            className="font-mono text-7xl font-bold text-green-800"
           />
-          <h3 className=" text-center font-medium text-lg text-gray-700">
+          <h3 className="text-center text-xl mt-2 font-medium text-gray-700">
             Cows Monitored
           </h3>
         </PixelCard>
 
         <PixelCard
           colors="#0ea5e9,#7dd3fc,#e0f2fe,#38bdf8"
-          className="flex w-full flex-col max-h-65 items-center justify-center rounded-2xl border border-blue-200 bg-blue-50 p-6 shadow-md transition-shadow duration-300 hover:shadow-lg xs:max-w-75"
+          className="max-h-65 xs:max-w-75 flex w-full flex-col items-center justify-center rounded-2xl border border-blue-200 bg-blue-50 p-6 shadow-md transition-shadow duration-300 hover:shadow-lg"
         >
           <CountUp
             from={0}
-            to={0}
+            to={95}
             separator=","
             duration={1.5}
-            className="text-[3.5rem] font-bold text-blue-800"
+            className="font-mono text-7xl font-bold text-blue-800"
           />
-          <h3 className=" text-center font-medium text-lg text-gray-700">
+          <h3 className="text-center text-xl mt-2 font-medium text-gray-700">
             Sensors Active
           </h3>
         </PixelCard>
 
         <PixelCard
-          variant='yellow'
-          className="flex w-full flex-col max-h-65 items-center justify-center rounded-2xl border border-yellow-200 bg-yellow-50 p-6 shadow-md transition-shadow duration-300 hover:shadow-lg xs:max-w-75"
+          variant="yellow"
+          className="max-h-65 xs:max-w-75 flex w-full flex-col items-center justify-center rounded-2xl border border-yellow-200 bg-yellow-50 p-6 shadow-md transition-shadow duration-300 hover:shadow-lg"
         >
           <CountUp
             from={0}
-            to={0}
+            to={30}
             separator=","
             duration={1.5}
-            className="text-[3.5rem] font-bold text-yellow-800"
+            className="font-mono text-7xl font-bold text-yellow-800"
           />
-          <h3 className=" text-center font-medium text-lg text-gray-700">
+          <h3 className="text-center text-xl mt-2 font-medium text-gray-700">
             AI Alerts Sent
           </h3>
         </PixelCard>

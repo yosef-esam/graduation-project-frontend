@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState, JSX } from 'react';
+import React, { JSX, useEffect, useRef, useState } from 'react';
 
 /* ===================== Pixel Class ===================== */
 class Pixel {
@@ -203,8 +203,7 @@ export default function PixelCard({
   };
 
   const handleAnimation = (name: keyof Pixel) => {
-    if (animationRef.current)
-      cancelAnimationFrame(animationRef.current);
+    if (animationRef.current) cancelAnimationFrame(animationRef.current);
     animationRef.current = requestAnimationFrame(() => doAnimate(name));
   };
 
@@ -216,8 +215,7 @@ export default function PixelCard({
 
     return () => {
       observer.disconnect();
-      if (animationRef.current)
-        cancelAnimationFrame(animationRef.current);
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
     };
   }, [colors, gap, speed, reducedMotion]);
 
@@ -232,7 +230,7 @@ export default function PixelCard({
     >
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
 
-      <div className="relative z-10 flex h-full w-full items-center justify-center">
+      <div className="relative z-10 flex  flex-col h-full w-full items-center justify-center">
         {children}
       </div>
     </div>

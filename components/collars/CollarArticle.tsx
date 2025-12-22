@@ -91,7 +91,6 @@ const CollarArticle = ({
             mouse={mouse}
             strength={strength}
             relaxation={relaxation}
-            isInView={isInView}
           />
         </div>
       </figure>

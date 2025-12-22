@@ -1,6 +1,7 @@
 'use client'
+import THREE from '@/lib/three';
+import { threeLoadingManager } from '@/lib/threeLoadingManager';
 import React, { useRef, useEffect } from 'react';
-import * as THREE from 'three';
 
 interface GridDistortionProps {
   grid?: number;
@@ -9,7 +10,6 @@ interface GridDistortionProps {
   relaxation?: number;
   imageSrc: string;
   className?: string;
-  isInView?: boolean; // ✅ new prop
 }
 
 const vertexShader = `
@@ -44,7 +44,6 @@ const GridDistortion: React.FC<GridDistortionProps> = ({
   relaxation = 0.9,
   imageSrc,
   className = '',
-  isInView=false,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -86,16 +85,35 @@ const GridDistortion: React.FC<GridDistortionProps> = ({
       uDataTexture: { value: null as THREE.DataTexture | null }
     };
 
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load(imageSrc, texture => {
+    // const textureLoader = new THREE.TextureLoader();
+
+  const textureLoader = new THREE.TextureLoader(threeLoadingManager);
+
+  // 👇 manually register this component
+  threeLoadingManager.itemStart('grid-distortion');
+
+  textureLoader.load(
+    imageSrc,
+    texture => {
       texture.minFilter = THREE.LinearFilter;
       texture.magFilter = THREE.LinearFilter;
       texture.wrapS = THREE.ClampToEdgeWrapping;
       texture.wrapT = THREE.ClampToEdgeWrapping;
+
       imageAspectRef.current = texture.image.width / texture.image.height;
+
       uniforms.uTexture.value = texture;
       handleResize();
-    });
+
+      // ✅ tell the global loader we are ready
+      threeLoadingManager.itemEnd('grid-distortion');
+    },
+    undefined,
+    err => {
+      console.error('Texture load failed', err);
+      threeLoadingManager.itemEnd('grid-distortion'); // fail-safe
+    }
+  );
 
     const size = grid;
     const data = new Float32Array(4 * size * size);
@@ -212,43 +230,42 @@ const GridDistortion: React.FC<GridDistortionProps> = ({
 
     handleResize();
 
-    const animate = () => {
-       if (!isInView) return;
-      animationIdRef.current = requestAnimationFrame(animate);
+  const animate = () => {
+    animationIdRef.current = requestAnimationFrame(animate); // ✅ always alive
 
-      if (!renderer || !scene || !camera) return;
 
-      uniforms.time.value += 0.05;
+    if (!renderer || !scene || !camera) return;
 
-      if (!(dataTexture.image.data instanceof Float32Array)) {
-        console.error('dataTexture.image.data is not a Float32Array');
-        return;
-      }
-      const data: Float32Array = dataTexture.image.data;
-      for (let i = 0; i < size * size; i++) {
-        data[i * 4] *= relaxation;
-        data[i * 4 + 1] *= relaxation;
-      }
+    uniforms.time.value += 0.05;
 
-      const gridMouseX = size * mouseState.x;
-      const gridMouseY = size * mouseState.y;
-      const maxDist = size * mouse;
+    const data: Float32Array = dataTexture.image.data as Float32Array;
 
-      for (let i = 0; i < size; i++) {
-        for (let j = 0; j < size; j++) {
-          const distSq = Math.pow(gridMouseX - i, 2) + Math.pow(gridMouseY - j, 2);
-          if (distSq < maxDist * maxDist) {
-            const index = 4 * (i + size * j);
-            const power = Math.min(maxDist / Math.sqrt(distSq), 10);
-            data[index] += strength * 100 * mouseState.vX * power;
-            data[index + 1] -= strength * 100 * mouseState.vY * power;
-          }
+    for (let i = 0; i < size * size; i++) {
+      data[i * 4] *= relaxation;
+      data[i * 4 + 1] *= relaxation;
+    }
+
+    const gridMouseX = size * mouseState.x;
+    const gridMouseY = size * mouseState.y;
+    const maxDist = size * mouse;
+
+    for (let i = 0; i < size; i++) {
+      for (let j = 0; j < size; j++) {
+        const distSq = (gridMouseX - i) ** 2 + (gridMouseY - j) ** 2;
+
+        if (distSq < maxDist * maxDist) {
+          const index = 4 * (i + size * j);
+          const power = Math.min(maxDist / Math.sqrt(distSq), 10);
+          data[index] += strength * 100 * mouseState.vX * power;
+          data[index + 1] -= strength * 100 * mouseState.vY * power;
         }
       }
+    }
 
-      dataTexture.needsUpdate = true;
-      renderer.render(scene, camera);
-    };
+    dataTexture.needsUpdate = true;
+    renderer.render(scene, camera);
+  };
+
 
     animate();
 
@@ -283,7 +300,7 @@ const GridDistortion: React.FC<GridDistortionProps> = ({
       cameraRef.current = null;
       planeRef.current = null;
     };
-  }, [grid, mouse, strength, relaxation, imageSrc, isInView]);
+  }, [grid, mouse, strength, relaxation, imageSrc]);
 
   return (
     <div

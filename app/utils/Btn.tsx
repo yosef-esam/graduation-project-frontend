@@ -5,7 +5,8 @@ interface BtnProps {
   text: string;
   type?: 'button' | 'submit' | 'reset';
   onClick?: () => void;
-  className?: string; // optional extra Tailwind classes
+  className?: string; 
+  disabled?:boolean
 }
 
 const Btn: React.FC<BtnProps> = ({
@@ -13,11 +14,13 @@ const Btn: React.FC<BtnProps> = ({
   type = 'button',
   onClick,
   className = '',
+  disabled
 }) => {
   return (
     <button
       type={type}
       onClick={onClick}
+      disabled={disabled}
       className={`border-3 border-(--secondary_color) bg-(--secondary_color) hover:text-(--secondary_color) w-full rounded-full p-2 text-center text-[1rem] font-bold text-white hover:bg-transparent md:p-4 md:text-lg lg:text-xl ${className}`}
     >
       {text}

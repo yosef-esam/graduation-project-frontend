@@ -24,15 +24,27 @@ export async function getAnimalById(id) {
 }
 
 // ================= CREATE =================
-export async function createAnimal(data) {
-  const res = await fetch(`${API_BASE_URL}/api/v1/animals`, {
+export async function createAnimal(data: {
+  name: string | null;
+  species: string | null;
+  age: number;
+  weight: number;
+  dateOfBirth: string | null;
+  notes: string | null;
+}) {
+  const res = await fetch(`${API_BASE_URL}/animals`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
+    cache: 'no-store',
   });
 
-  if (!res.ok) throw new Error('Failed to create animal');
-  return res.json();
+ if (!res.ok) {
+  const error = await res.text();
+  throw new Error(error || 'Failed to create animal');
+}
+
+
 }
 
 // ================= UPDATE =================
@@ -59,7 +71,7 @@ export async function deleteAnimal(id) {
 
 // ================= COUNT =================
 export async function getAnimalsCount() {
-  const res = await fetch(`http://farmiqapi.runasp.net/api/v1/animals/count`, {
+  const res = await fetch(`${API_BASE_URL}/animals/count`, {
     cache: 'no-store',
   });
 

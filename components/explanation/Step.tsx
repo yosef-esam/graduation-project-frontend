@@ -42,7 +42,7 @@ const Step: React.FC<StepProps> = ({
             alt="Product image"
             width={240}
             height={240}
-            className="h-15 w-full max-w-[200px]"
+            className=" w-full brightness-0 max-w-[200px]"
             loading="lazy"
             decoding="async"
           />

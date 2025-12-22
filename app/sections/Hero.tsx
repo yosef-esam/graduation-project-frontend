@@ -32,6 +32,16 @@ const Hero = () => {
           transparent
         />
       </figure>
+      <figure className="absolute inset-0 top-0 m-auto h-full w-full">
+        <Image
+          src="/images/landingPage/heroOverlay.svg"
+          alt="logo"
+          width={300}
+          height={300}
+          className="h-full w-full object-cover"
+          priority
+        />
+      </figure>
 
       <figure className="absolute inset-0 z-20 h-screen w-full">
         <HeroCanvas />

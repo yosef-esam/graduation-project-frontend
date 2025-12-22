@@ -1,14 +1,27 @@
-// lib/lenis.ts
+// lib/useLenis.ts
+'use client';
+import { useEffect, useRef } from 'react';
 import Lenis from '@studio-freight/lenis';
 
-export const lenis = new Lenis({
-  smoothWheel: true,
-  smoothTouch: false,
-});
+export default function useLenis() {
+  const lenis = useRef<Lenis | null>(null);
 
-function raf(time: number) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
+  useEffect(() => {
+    lenis.current = new Lenis({
+      smoothWheel: true,
+      smoothTouch: false,
+    });
+
+    function raf(time: number) {
+      lenis.current?.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.current = null;
+    };
+  }, []);
+
+  return lenis;
 }
-
-requestAnimationFrame(raf);

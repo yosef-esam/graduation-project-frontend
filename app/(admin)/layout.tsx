@@ -1,6 +1,7 @@
 'use client';
 import { Bell, Calendar, Plus } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function AuthLayout({
   children,
@@ -21,7 +22,7 @@ export default function AuthLayout({
         <div className="flex items-center gap-3">
           <button className="flex items-center gap-2 rounded-lg bg-green-500 px-6 py-3 text-white hover:bg-green-600">
             <Plus className="h-5 w-5" />
-            <span className="font-medium">Add Cow</span>
+            <Link href={'/dashboard/add'}  className="font-medium">Add Cow</Link>
           </button>
           <button className="flex items-center gap-2 rounded-lg border border-gray-300 px-6 py-3 hover:bg-gray-50">
             <Bell className="h-5 w-5" />

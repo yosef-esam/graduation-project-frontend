@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Poppins } from 'next/font/google'; // add Poppins
 import './globals.css';
 import { LenisProvider } from '@/app/providers/LenisProvider';
-import { ThreeLoaderProvider } from '@/app/contexts/ThreeLoaderContext';
-import ThreeLoader from '@/components/ui/ThreeLoader';
+import { Toaster } from 'react-hot-toast';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -36,10 +35,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${poppins.variable} antialiased`}
       >
-        <ThreeLoaderProvider>
-          <ThreeLoader />
-          <LenisProvider>{children}</LenisProvider>{' '}
-        </ThreeLoaderProvider>
+        <LenisProvider>{children}</LenisProvider>{' '}
+         <Toaster position="top-right" reverseOrder={false} />
       </body>
     </html>
   );

@@ -10,7 +10,7 @@ const featureData = [
   {
     title: 'Reliable and Durable',
     description:
-      'Leverage 40 years of experience and development. Mechanical design made to last and withstand harsh farm conditions.',
+      ' Mechanical design made to last and withstand harsh farm conditions.',
     imageSrc: '/images/landingPage/features.webp',
   },
   {
@@ -40,7 +40,7 @@ const featureData = [
   {
     title: 'Reliable and Durable',
     description:
-      'Leverage 40 years of experience and development. Mechanical design made to last and withstand harsh farm conditions.',
+      ' Mechanical design made to last and withstand harsh farm conditions.',
     imageSrc: '/images/landingPage/wireless.png',
   },
   {

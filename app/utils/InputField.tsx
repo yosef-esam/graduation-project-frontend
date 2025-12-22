@@ -1,27 +1,29 @@
-import React from "react";
+import React from 'react';
 
 interface InputFieldProps {
-  label: string;
+  label?: string;
   placeholder?: string;
-  type?: React.HTMLInputTypeAttribute; 
-  id: string;
+  type?: React.HTMLInputTypeAttribute;
+  id?: string;
   name: string;
   className?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value?: string; 
-  defultValue?:string
+  value?: string;
+  defultValue?: string;
+  required?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
   label,
-  placeholder = "",
-  type = "text",
+  placeholder = '',
+  type = 'text',
   id,
   name,
-  className = "",
+  className = '',
   onChange,
   value,
-  defultValue
+  defultValue,
+  required,
 }) => {
   return (
     <figure className={`flex flex-col gap-2 ${className}`}>
@@ -36,7 +38,8 @@ const InputField: React.FC<InputFieldProps> = ({
         value={value}
         defaultValue={defultValue}
         onChange={onChange}
-        className="rounded-lg border-2 p-4"
+        required={required}
+        className="rounded-lg border-2 p-4 normal-case"
       />
     </figure>
   );

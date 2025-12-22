@@ -110,7 +110,7 @@ const CollarArticle = ({
             alt={titleAlt}
             width={240}
             height={240}
-            className="h-15 w-full max-w-[200px]"
+            className="h-auto w-full max-w-[150px]"
             loading="lazy"
             decoding="async"
           />

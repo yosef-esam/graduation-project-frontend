@@ -36,7 +36,7 @@ const Articles = () => {
             Explore All Articles
           </Link>
         </article>
-        <figure className="relative min-h-40 xs:min-h-50 xl:min-h-0 mb-70 xs:mb-20 ml-auto mr-16  text-white">
+        <figure className="relative min-h-40 xs:min-h-50 xl:min-h-0 mb-70 xs:mb-20 ml-auto mr-40  text-white">
           <CardSwap
             cardDistance={60}
             verticalDistance={70}

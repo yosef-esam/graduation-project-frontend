@@ -35,7 +35,7 @@ const Step: React.FC<StepProps> = ({
   return (
     <article className="step flex flex-wrap items-center justify-center gap-16">
       {/* TEXT COLUMN */}
-      <div className="sm:flex-2 flex min-w-[300px] flex-[1_1_300px] flex-col gap-1">
+      <div className="sm:flex-2 flex min-w-full xs:min-w-[300px] flex-[1_1_300px] flex-col gap-1">
         {titleImage && (
           <Image
             src={variantImageMap[variant]}

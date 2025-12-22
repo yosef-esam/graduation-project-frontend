@@ -12,7 +12,7 @@ const FeaturesSwiper = dynamic(
 );
 const Features = () => {
   return (
-    <section className="min-h-100 relative isolate flex flex-col gap-16 overflow-hidden py-20">
+    <section id='features' className="min-h-100 relative isolate flex flex-col gap-16 overflow-hidden py-20">
       <figure className="bg-linear-to-b absolute inset-0 -z-10 m-auto h-full w-full bg-black">
         <Image
           width={100}

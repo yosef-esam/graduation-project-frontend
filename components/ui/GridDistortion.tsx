@@ -1,7 +1,7 @@
 'use client'
+import THREE from '@/lib/three';
 import { threeLoadingManager } from '@/lib/threeLoadingManager';
 import React, { useRef, useEffect } from 'react';
-import * as THREE from 'three';
 
 interface GridDistortionProps {
   grid?: number;
@@ -10,7 +10,6 @@ interface GridDistortionProps {
   relaxation?: number;
   imageSrc: string;
   className?: string;
-  isInView?: boolean; // ✅ new prop
 }
 
 const vertexShader = `
@@ -45,7 +44,6 @@ const GridDistortion: React.FC<GridDistortionProps> = ({
   relaxation = 0.9,
   imageSrc,
   className = '',
-  isInView=false,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -235,7 +233,6 @@ const GridDistortion: React.FC<GridDistortionProps> = ({
   const animate = () => {
     animationIdRef.current = requestAnimationFrame(animate); // ✅ always alive
 
-    if (!isInView) return; // only skip rendering
 
     if (!renderer || !scene || !camera) return;
 
@@ -303,7 +300,7 @@ const GridDistortion: React.FC<GridDistortionProps> = ({
       cameraRef.current = null;
       planeRef.current = null;
     };
-  }, [grid, mouse, strength, relaxation, imageSrc, isInView]);
+  }, [grid, mouse, strength, relaxation, imageSrc]);
 
   return (
     <div

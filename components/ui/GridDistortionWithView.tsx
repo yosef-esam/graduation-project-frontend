@@ -41,7 +41,6 @@ const GridDistortionWithInView: React.FC<Props> = ({
         strength={strength}
         relaxation={relaxation}
         className={className}
-        isInView={started} // animation runs once
       />
     </div>
   );

@@ -20,12 +20,16 @@ const LoginPage = () => {
     try {
       await loginAction(form);
       toast.success("Login successful! Redirecting...");
-      router.push("/"); // redirect to homepage
-    }  catch (err) {
+      if (form.email === "admin@farmiq.com" && form.password === "Admin123#") {
+        router.push("/superdashboard");
+      } else {
+        router.push("/");
+      }
+    } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : 'An error occurred';
       toast.error(errorMessage);
-    }finally {
+    } finally {
       setLoading(false);
     }
   };

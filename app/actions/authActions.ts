@@ -23,7 +23,7 @@ export async function loginAction({ email, password }) {
   formData.append('Email', email);
   formData.append('Password', password);
 
-  const res = await fetch(`${API_BASE_URL}/authentication/signin`, {
+  const res = await fetch(`https://farmiq.runasp.net/api/v1/authentication/signin`, {
     method: 'POST',
     body: formData,
     cache: 'no-store',

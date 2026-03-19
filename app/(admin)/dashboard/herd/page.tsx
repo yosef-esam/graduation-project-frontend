@@ -3,9 +3,9 @@ import React from 'react';
 import { ViewAll } from '../_components/ViewAll';
 
 async function Herd() {
-  const cowsResponse = await getAnimals();
+  const cows = await getAnimals();
 
-  const cows = cowsResponse.data;
+  console.log(cows)
 
   return (
     <div className="space-y-6">

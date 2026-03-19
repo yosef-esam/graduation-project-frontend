@@ -1,5 +1,4 @@
 import { getAnimals } from '@/app/actions/animalActions';
-import React from 'react';
 import { ViewAll } from '../_components/ViewAll';
 
 async function Herd() {

@@ -9,7 +9,7 @@ import Link from 'next/link';
 export async function DashboardContent() {
   const counts = await getAnimalsCount();
   const cows = await getAnimals();
-  console.log(cows);
+  console.log(cows)
 
   return (
     <div className="flex-1 p-8">
@@ -59,7 +59,7 @@ export async function DashboardContent() {
               View All
             </Link>
           </div>
-          <ViewAll cows={cows.data} limit={3} />
+          <ViewAll cows={cows} limit={3} />
         </div>
       </div>
     </div>

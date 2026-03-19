@@ -1,4 +1,5 @@
 import { LayoutGrid, List, Activity, Settings, LogOut, Cloud } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Sidebar() {
   return (
@@ -21,16 +22,13 @@ export default function Sidebar() {
           </button>
           <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50">
             <List className="w-5 h-5" />
-            <span className="text-sm font-medium">Herd List</span>
+            <Link href="/dashboard/herd" className="text-sm font-medium">Herd List</Link>
           </button>
           <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50">
             <Activity className="w-5 h-5" />
-            <span className="text-sm font-medium">Health Logs</span>
+            <Link href="/dashboard/users" className="text-sm font-medium">Users</Link>
           </button>
-          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50">
-            <Settings className="w-5 h-5" />
-            <span className="text-sm font-medium">Settings</span>
-          </button>
+
         </nav>
       </div>
 

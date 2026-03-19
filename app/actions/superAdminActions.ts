@@ -2,6 +2,7 @@
 
 import { authFetch } from '../lib/authFitch';
 import { API_BASE_URL } from '../lib/api';
+import { revalidatePath } from 'next/cache';
 
 // ================= GET ALL FARMS =================
 export async function getFarms() {
@@ -150,6 +151,8 @@ export async function deleteFarm(id: number) {
     }
 
     if (!res.ok) throw new Error(result.message || "Failed to delete farm");
+
+    revalidatePath("/superdashboard");
 
     return result.data;
 }

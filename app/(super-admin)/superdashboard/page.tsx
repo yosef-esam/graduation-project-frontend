@@ -10,7 +10,7 @@ export default async function SuperAdminDashboard() {
         getFarms(),
         getFarmsCount()
     ]);
-
+    console.log(farms)
     return (
         <div className="p-6">
 
@@ -92,7 +92,7 @@ export default async function SuperAdminDashboard() {
                                 </td>
 
                                 <td className="py-2">
-                                    {farm.ownerUserName}
+                                    {farm.ownerName}
                                 </td>
 
                                 <td className="py-2">

@@ -30,6 +30,7 @@ export async function getAnimals() {
 
 // ================= GET BY ID =================
 export async function getAnimalById(id) {
+  console.log("API_BASE_URL:", API_BASE_URL);
   const res = await authFetch(`${API_BASE_URL}/animals/${id}`, {
     cache: 'no-store',
   });

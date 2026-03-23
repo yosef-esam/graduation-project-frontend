@@ -3,11 +3,11 @@
 import { API_BASE_URL } from "../lib/api";
 import { authFetch } from "../lib/authFitch";
 /////////////////////////////////////////////////////
-// Get Paginated Users
+// Get  Users
 /////////////////////////////////////////////////////
-export async function getUsersPaginatedAction(page = 1, pageSize = 20) {
+export async function getUsersPaginatedAction() {
     const res = await authFetch(
-        `${API_BASE_URL}/users/paginated?page=${page}&pageSize=${pageSize}`,
+        `${API_BASE_URL}/users`,
         {
             method: "GET",
             cache: "no-store",

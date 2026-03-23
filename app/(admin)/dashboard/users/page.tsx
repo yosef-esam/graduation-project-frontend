@@ -3,7 +3,7 @@ import EditUserRoleButton from "./_components/EditUserRoleButton";
 import AddWorkerForm from "./_components/AddWorkerForm";
 
 export default async function UsersPage() {
-  const users = await getUsersPaginatedAction(1, 30);
+  const users = await getUsersPaginatedAction();
   console.log(users);
 
   return (
@@ -18,6 +18,7 @@ export default async function UsersPage() {
             <tr>
               <th className="p-3">User ID</th>
               <th className="p-3">Name</th>
+              <th className="p-3">Farm ID</th>
               <th className="p-3">Email</th>
               <th className="p-3">Phone</th>
               <th className="p-3">Role</th>
@@ -30,6 +31,7 @@ export default async function UsersPage() {
               <tr key={user.userId} className="border-t">
                 <td className="p-3">{user.userId}</td>
                 <td className="p-3">{user.fullName}</td>
+                <td className="p-3">{user.farmId}</td>
                 <td className="p-3">{user.email}</td>
                 <td className="p-3">{user.phoneNumber}</td>
                 <td className="p-3">{user.userRole}</td>

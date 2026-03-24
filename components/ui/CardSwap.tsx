@@ -7,10 +7,10 @@ import React, {
   forwardRef,
   isValidElement,
   ReactNode,
-  RefObject,
   useEffect,
   useMemo,
   useRef,
+  useCallback,
 } from 'react';
 
 export interface CardSwapProps {
@@ -60,7 +60,6 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 
 Card.displayName = 'Card';
 
-type CardRef = RefObject<HTMLDivElement | null>;
 interface Slot {
   x: number;
   y: number;
@@ -104,7 +103,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
   easing = 'elastic',
   children,
 }) => {
-  const config =
+  const config = useMemo(() => 
     easing === 'elastic'
       ? {
           ease: 'elastic.out(0.6,0.9)',
@@ -121,7 +120,7 @@ const CardSwap: React.FC<CardSwapProps> = ({
           durReturn: 0.8,
           promoteOverlap: 0.45,
           returnDelay: 0.2,
-        };
+        }, [easing]);
 
   const childArr = useMemo(
     () =>
@@ -143,21 +142,25 @@ const CardSwap: React.FC<CardSwapProps> = ({
   const intervalRef = useRef<number>(0);
   const container = useRef<HTMLDivElement>(null);
 
-  const placeAll = () => {
+  const placeAll = useCallback(() => {
     const total = refs.length;
-    refs.forEach((r, i) =>
-      placeNow(
-        r.current!,
-        makeSlot(i, cardDistance, verticalDistance, total),
-        skewAmount
-      )
-    );
-  };
+    refs.forEach((r, i) => {
+      if (r.current) {
+        placeNow(
+          r.current,
+          makeSlot(i, cardDistance, verticalDistance, total),
+          skewAmount
+        );
+      }
+    });
+  }, [refs, cardDistance, verticalDistance, skewAmount]);
 
-  const swap = () => {
+  const swap = useCallback(() => {
     if (order.current.length < 2) return;
 
     const [front, ...rest] = order.current;
+    if (!refs[front].current) return;
+
     const elFront = refs[front].current!;
     const tl = gsap.timeline();
     tlRef.current = tl;
@@ -166,7 +169,8 @@ const CardSwap: React.FC<CardSwapProps> = ({
     tl.addLabel('promote', `-=${config.durDrop * config.promoteOverlap}`);
 
     rest.forEach((idx, i) => {
-      const el = refs[idx].current!;
+      const el = refs[idx].current;
+      if (!el) return;
       const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
       tl.set(el, { zIndex: slot.zIndex }, 'promote');
       tl.to(
@@ -210,20 +214,59 @@ const CardSwap: React.FC<CardSwapProps> = ({
     tl.call(() => {
       order.current = [...rest, front];
     });
-  };
+  }, [refs, config, cardDistance, verticalDistance]);
 
-  const goToCard = (index: number) => {
+  const goToCard = useCallback((index: number) => {
     if (index === order.current[0]) return;
-    const newOrder = order.current.filter(i => i !== index);
-    order.current = [index, ...newOrder];
-    placeAll(); // instant reposition, or you can animate here if desired
-  };
+    
+    // Stop auto-play immediately on manual interaction
+    if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = 0;
+    }
+    
+    // Animate the clicked card to front
+    const el = refs[index].current!;
+    
+    // Stop any current animation
+    if (tlRef.current) tlRef.current.kill();
+    
+    const tl = gsap.timeline({
+      onComplete: () => {
+        const newOrder = order.current.filter(i => i !== index);
+        order.current = [index, ...newOrder];
+        placeAll();
+      }
+    });
+
+    // Simple "promotion" animation
+    tl.to(el, {
+      y: '+=100',
+      scale: 1.1,
+      duration: 0.3,
+      ease: 'power2.out'
+    })
+    .to(el, {
+      x: 0,
+      y: 0,
+      z: 0,
+      scale: 1,
+      duration: 0.5,
+      ease: config.ease,
+      zIndex: refs.length
+    });
+  }, [refs, config, placeAll]);
 
   useEffect(() => {
     placeAll();
-    intervalRef.current = window.setInterval(swap, delay);
-    return () => clearInterval(intervalRef.current);
-  }, [cardDistance, verticalDistance, delay, skewAmount, easing]);
+    // Only set interval if it's not already cleared by user
+    if (!intervalRef.current && order.current.length > 0) {
+        intervalRef.current = window.setInterval(swap, delay);
+    }
+    return () => {
+        if(intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [cardDistance, verticalDistance, delay, skewAmount, easing, swap, placeAll]);
 
   const rendered = useMemo(
     () =>

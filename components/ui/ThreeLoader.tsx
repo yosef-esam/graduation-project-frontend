@@ -1,6 +1,6 @@
 'use client';
 
-import { useThreeLoader } from '@/app/contexts/ThreeLoaderContext';
+import { useThreeLoader } from '@/contexts/ThreeLoaderContext';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 

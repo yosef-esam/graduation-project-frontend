@@ -1,6 +1,6 @@
 import Benefit from '@/components/explanation/Benefit';
+import { TransitionLink } from '@/components/TransitionLink';
 import Image from 'next/image';
-import Link from 'next/link';
 
 type StepVariant = 'first' | 'second';
 
@@ -35,14 +35,14 @@ const Step: React.FC<StepProps> = ({
   return (
     <article className="step flex flex-wrap items-center justify-center gap-16">
       {/* TEXT COLUMN */}
-      <div className="sm:flex-2 flex min-w-full xs:min-w-[300px] flex-[1_1_300px] flex-col gap-1">
+      <div className="sm:flex-2 flex min-w-full flex-[1_1_300px] flex-col gap-1 xs:min-w-[300px]">
         {titleImage && (
           <Image
             src={variantImageMap[variant]}
             alt="Product image"
             width={240}
             height={240}
-            className=" w-full brightness-0 max-w-[200px]"
+            className="w-full max-w-[200px] brightness-0"
             loading="lazy"
             decoding="async"
           />
@@ -65,12 +65,12 @@ const Step: React.FC<StepProps> = ({
         {description && <p className="text-sm">{description}</p>}
 
         {ctaHref && (
-          <Link
+          <TransitionLink
             href={ctaHref}
             className="buttonStyles border-3 border-(--secondary_color)! hover:text-(--secondary_color)! mt-4"
           >
             {ctaText}
-          </Link>
+          </TransitionLink>
         )}
       </div>
 

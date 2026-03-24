@@ -4,7 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { Environment } from '@react-three/drei';
 import { Suspense } from 'react';
 import CowFollow from './CowFollow';
-import CanvasLoader from '@/app/utils/CanvasLoader';
+import CanvasLoader from '@/utils/CanvasLoader';
 
 export default function HeroCanvas() {
   return (

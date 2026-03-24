@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import useInView from '@/app/providers/useInView';
+import useInView from '@/providers/useInView';
 import CollarArticle from '@/components/collars/CollarArticle';
 
 interface CollarArticleWrapperProps {

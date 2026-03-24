@@ -1,38 +1,31 @@
-'use client';
-import { Bell, Calendar, Plus } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+"use client";
+
+import { useState } from "react";
+import Sidebar from "./dashboard/Sidebar";
+import AdminHeader from "./dashboard/_components/AdminHeader";
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   return (
-    <main>
-      <div className="mb-6 flex items-center justify-between">
-        <div>
-          <h1 className="mb-2 text-3xl font-bold">Farm Overview</h1>
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <Calendar className="h-4 w-4" />
-            <span>Today, Oct 24 • 12:40 PM</span>
-          </div>
-        </div>
+    <div className="min-h-screen bg-gray-50 flex flex-col p-6 md:p-10 lg:p-12 ">
+        {/* Centered container for both Sidebar and Content */}
+        <div className="max-w-[1700px] mx-auto w-full flex flex-col xl:flex-row gap-6 md:gap-10 relative">
+             {/* Left Column: Sidebar */}
+             <Sidebar isOpen={isSidebarOpen} setIsOpenAction={setIsSidebarOpen} />
 
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 rounded-lg bg-green-500 px-6 py-3 text-white hover:bg-green-600">
-            <Plus className="h-5 w-5" />
-            <Link href={'/dashboard/addanimal'} className="font-medium">Add Cow</Link>
-          </button>
-          <button className="flex items-center gap-2 rounded-lg border border-gray-300 px-6 py-3 hover:bg-gray-50">
-            <Bell className="h-5 w-5" />
-            <span className="font-medium">View Alerts</span>
-          </button>
+             {/* Right Column: Dynamic Content Area */}
+             <main className="flex-1 min-w-0 flex flex-col">
+                <AdminHeader onMenuClickAction={() => setIsSidebarOpen(!isSidebarOpen)} />
+                <section className="relative z-0">
+                  {children}
+                </section>
+             </main>
         </div>
-      </div>
-
-      {/* Right side: page content */}
-      <section>{children}</section>
-    </main>
+    </div>
   );
 }

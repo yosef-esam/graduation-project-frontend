@@ -1,7 +1,7 @@
 'use client';
 
-import { useLenisContext } from '@/app/providers/LenisProvider';
-import ScrollFocus from '@/app/utils/ScrollFocus';
+import { useLenisContext } from '@/providers/LenisProvider';
+import ScrollFocus from '@/utils/ScrollFocus';
 import GridDistortion from '@/components/ui/GridDistortion';
 import Image from 'next/image';
 import { useState } from 'react';

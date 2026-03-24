@@ -1,98 +1,183 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { createFarm } from "@/app/actions/superAdminActions";
+import { createFarm } from '@/actions/superAdminActions';
+import { PageHeader } from '@/components/Dashboard/PageHeader';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import {
+  MdArrowForward,
+  MdBusiness,
+  MdChevronLeft,
+  MdPerson,
+} from 'react-icons/md';
+import Swal from 'sweetalert2';
 
 export default function AddFarmPage() {
-    const router = useRouter();
-    const [farmName, setFarmName] = useState("");
-    const [ownerUserId, setOwnerUserId] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState("");
+  const router = useRouter();
+  const [farmName, setFarmName] = useState('');
+  const [ownerUserId, setOwnerUserId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError("");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-        if (!farmName || !ownerUserId) {
-            setError("Farm Name and Owner User ID are required.");
-            return;
-        }
+    if (!farmName || !ownerUserId) {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        icon: 'warning',
+        title: 'Validation Failed',
+        text: 'Farm Name and Owner User ID are required.',
+        background: '#023b26',
+        color: '#ffffff',
+      });
+      return;
+    }
 
-        try {
-            setIsLoading(true);
-            await createFarm({
-                farmName,
-                ownerUserId: Number(ownerUserId)
-            });
+    try {
+      setIsLoading(true);
+      await createFarm({
+        farmName,
+        ownerUserId: Number(ownerUserId),
+      });
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        icon: 'success',
+        title: 'Provisioning Authorized',
+        text: 'Infrastructure node provisioned to matrix.',
+        background: '#023b26',
+        color: '#ffffff',
+      });
+      setTimeout(() => {
+        window.location.href = '/superdashboard';
+      }, 1000);
+    } catch (err: any) {
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        icon: 'error',
+        title: 'Provisioning Refused',
+        text: err.message || 'Failed to create farm.',
+        background: '#e11d48',
+        color: '#ffffff',
+      });
+      setIsLoading(false);
+    }
+  };
 
-            // Hard redirect to ensure new data is fully loaded and navigation completes
-            window.location.href = "/superdashboard";
-        } catch (err: any) {
-            setError(err.message || "Failed to create farm.");
-            setIsLoading(false);
-        }
-    };
+  return (
+    <div className="font-poppins space-y-10">
+      <div className="mx-auto max-w-4xl">
+        <button
+          onClick={() => router.back()}
+          className="group mb-8 flex items-center gap-2 text-xs font-black uppercase tracking-widest text-emerald-600/60 transition-colors hover:text-emerald-600"
+        >
+          <MdChevronLeft
+            size={20}
+            className="transition-transform group-hover:-translate-x-1"
+          />{' '}
+          Return to FarmIQ
+        </button>
 
-    return (
-        <div className="p-6 max-w-2xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6">Add New Farm</h1>
+        <PageHeader
+          title="Node Provisioning"
+          subtitle="Deploy a new farm infrastructure node into the global monitoring matrix. Authorization required for all new environment deployments."
+        />
+      </div>
 
-            <div className="bg-white shadow rounded-xl border p-6">
-                {error && (
-                    <div className="bg-red-100 text-red-700 p-3 rounded mb-4">
-                        {error}
-                    </div>
-                )}
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Farm Name
-                        </label>
-                        <input
-                            type="text"
-                            value={farmName}
-                            onChange={(e) => setFarmName(e.target.value)}
-                            className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Enter farm name"
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Owner User ID
-                        </label>
-                        <input
-                            type="number"
-                            value={ownerUserId}
-                            onChange={(e) => setOwnerUserId(e.target.value)}
-                            className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            placeholder="Enter owner user ID"
-                            required
-                        />
-                    </div>
-
-                    <div className="flex gap-3 justify-end mt-6">
-                        <button
-                            type="button"
-                            onClick={() => router.back()}
-                            className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
-                        >
-                            {isLoading ? "Creating..." : "Create Farm"}
-                        </button>
-                    </div>
-                </form>
-            </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mx-auto max-w-2xl overflow-hidden rounded-[3rem] border border-white/20 bg-white/40 p-10 shadow-2xl backdrop-blur-3xl"
+      >
+        <div className="mb-10 flex items-center gap-4">
+          <div className="bg-linear-to-br flex h-16 w-16 items-center justify-center rounded-2xl from-[#023b26] to-[#011a11] text-emerald-400 shadow-xl shadow-[#023b26]/20">
+            <MdBusiness size={32} />
+          </div>
+          <div>
+            <h2 className="mb-1 text-3xl font-black uppercase leading-none tracking-tighter text-gray-900">
+              Deployment Phase
+            </h2>
+            <p className="text-sm font-bold text-gray-400">
+              Infrastructure synchronization details.
+            </p>
+          </div>
         </div>
-    );
+
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div className="space-y-2">
+            <label className="pl-1 text-[10px] font-black uppercase tracking-widest text-emerald-600">
+              Infrastructure Identity
+            </label>
+            <div className="relative">
+              <MdBusiness
+                className="absolute left-4 top-1/2 z-10 -translate-y-1/2 text-gray-400"
+                size={20}
+              />
+              <input
+                type="text"
+                value={farmName}
+                onChange={e => setFarmName(e.target.value)}
+                className="h-14 w-full rounded-2xl border border-gray-50 bg-gray-50/50 pl-12 pr-6 font-bold text-gray-900 shadow-inner outline-none transition-all focus:ring-2 focus:ring-emerald-500"
+                placeholder="Farm Operational Name"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="pl-1 text-[10px] font-black uppercase tracking-widest text-emerald-600">
+              Owner Assignment (User ID)
+            </label>
+            <div className="relative">
+              <MdPerson
+                className="absolute left-4 top-1/2 z-10 -translate-y-1/2 text-gray-400"
+                size={20}
+              />
+              <input
+                type="number"
+                value={ownerUserId}
+                onChange={e => setOwnerUserId(e.target.value)}
+                className="h-14 w-full rounded-2xl border border-gray-50 bg-gray-50/50 pl-12 pr-6 font-bold text-gray-900 shadow-inner outline-none transition-all focus:ring-2 focus:ring-emerald-500"
+                placeholder="Entity ID Reference"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="flex gap-4 pt-4">
+            <button
+              type="button"
+              onClick={() => router.back()}
+              className="h-16 flex-1 rounded-2xl bg-gray-100 font-black uppercase tracking-widest text-gray-500 shadow-sm transition-all hover:bg-gray-200 active:scale-95"
+            >
+              Abort
+            </button>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="group relative h-16 flex-[2] overflow-hidden rounded-2xl bg-[#023b26] text-white shadow-xl transition-all hover:bg-[#012217] active:scale-95 disabled:opacity-50"
+            >
+              <div className="bg-linear-to-r absolute inset-0 from-emerald-500/10 to-transparent transition-transform group-hover:translate-x-full" />
+              <div className="relative z-10 flex items-center justify-center gap-3 font-black uppercase tracking-widest">
+                {isLoading ? 'COMMITTING...' : 'AUTHORIZE DEPLOYMENT'}
+                <MdArrowForward
+                  size={20}
+                  className="transition-transform group-hover:translate-x-1"
+                />
+              </div>
+            </button>
+          </div>
+        </form>
+      </motion.div>
+    </div>
+  );
 }

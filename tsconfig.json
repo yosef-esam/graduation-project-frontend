@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -19,7 +20,18 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@/app/*": ["app/*"],
+      "@/components/*": ["components/*"],
+      "@/sections/*": ["components/sections/*"],
+      "@/actions/*": ["lib/actions/*"],
+      "@/contexts/*": ["lib/contexts/*"],
+      "@/providers/*": ["lib/providers/*"],
+      "@/utils/*": ["lib/utils/*"],
+      "@/hooks/*": ["lib/hooks/*"],
+      "@/lib/*": ["lib/*"],
+      "@/styles/*": ["styles/*"],
+      "@/types/*": ["lib/types/*"]
     }
   },
   "include": [

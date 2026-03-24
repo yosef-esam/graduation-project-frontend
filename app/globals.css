@@ -100,6 +100,14 @@ body {
 /* ==========================
 utility classes
 ========================== */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 @utility container {
   @apply mx-auto h-full px-4 max-w-6xl;
 }
@@ -144,9 +152,7 @@ utility classes
     @apply w-6 transition-all;
   }
 
-  path {
-    fill: currentColor !important;
-  }
+
 
   a,
   button {
@@ -251,6 +257,13 @@ utility classes
 
 
 @layer components{
+  section{
+    overflow: hidden;
+  }
+  input:not(:focus),select:not(:focus),textarea:not(:focus){
+    text-transform:  none !important;
+    border: none !important;
+  }
   .step:nth-child(even){
     @apply flex-row-reverse
   }
@@ -293,3 +306,14 @@ utility classes
 animation: shine 5s linear infinite;
         }
 
+/* Custom Scrollbar for ScrollableWrapper */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #10b981;
+  border-radius: 20px;
+}

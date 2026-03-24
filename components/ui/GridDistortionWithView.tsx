@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import useInView from '@/app/providers/useInView';
+import useInView from '@/providers/useInView';
 import GridDistortion from '@/components/ui/GridDistortion';
 
 interface Props {

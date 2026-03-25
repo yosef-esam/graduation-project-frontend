@@ -35,7 +35,13 @@ interface Farm {
   isActive: boolean;
 }
 
-const TooltipCell = ({ farm, showIdBelow }: { farm: Farm; showIdBelow?: boolean }) => {
+const TooltipCell = ({
+  farm,
+  showIdBelow,
+}: {
+  farm: Farm;
+  showIdBelow?: boolean;
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -47,23 +53,23 @@ const TooltipCell = ({ farm, showIdBelow }: { farm: Farm; showIdBelow?: boolean 
   // Ensure tooltip follows if user scrolls while hovering
   // handleMouseMove already tracks mouse in fixed viewport space.
 
-  const dummyEmail = useMemo(() =>
-    `${farm.ownerName.toLowerCase().replace(/\s+/g, '.')}@farmiq.ai`,
+  const dummyEmail = useMemo(
+    () => `${farm.ownerName.toLowerCase().replace(/\s+/g, '.')}@farmiq.ai`,
     [farm.ownerName]
   );
 
   const dummyPhone = useMemo(() => {
     const idNum = typeof farm.id === 'number' ? farm.id : farm.id.length;
-    const part1 = (idNum * 77) % 90 + 10;
-    const part2 = (idNum * 123) % 9000 + 1000;
-    const part3 = (idNum * 456) % 9000 + 1000;
+    const part1 = ((idNum * 77) % 90) + 10;
+    const part2 = ((idNum * 123) % 9000) + 1000;
+    const part3 = ((idNum * 456) % 9000) + 1000;
     return `+20 1${part1} ${part2} ${part3}`;
   }, [farm.id]);
 
   return (
     <div
-      className="relative flex items-center gap-4 group/tooltip cursor-pointer w-max"
-      onMouseEnter={(e) => {
+      className="group/tooltip relative flex w-max cursor-pointer items-center gap-4"
+      onMouseEnter={e => {
         setIsHovered(true);
         setMousePos({ x: e.clientX, y: e.clientY });
       }}
@@ -76,26 +82,30 @@ const TooltipCell = ({ farm, showIdBelow }: { farm: Farm; showIdBelow?: boolean 
         </div>
 
         {/* Touch Screen Tooltip (Static) */}
-        <div className="hidden max-md:group-hover/tooltip:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-[220px] bg-white border border-gray-100 shadow-2xl rounded-2xl p-4 z-50 pointer-events-none">
-          <p className="text-[11px] font-black uppercase tracking-tight text-gray-900">{farm.ownerName}</p>
+        <div className="pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 hidden w-[220px] -translate-x-1/2 rounded-2xl border border-gray-100 bg-white p-4 shadow-2xl max-md:group-hover/tooltip:block">
+          <p className="text-[11px] font-black uppercase tracking-tight text-gray-900">
+            {farm.ownerName}
+          </p>
           <div className="mt-2 space-y-1">
-            <p className="text-[9px] font-bold text-gray-500 truncate flex items-center gap-1">
+            <p className="flex items-center gap-1 truncate text-[9px] font-bold text-gray-500">
               <MdEmail size={10} className="text-emerald-500" /> {dummyEmail}
             </p>
-            <p className="text-[9px] font-bold text-gray-500 flex items-center gap-1">
+            <p className="flex items-center gap-1 text-[9px] font-bold text-gray-500">
               <MdPhone size={10} className="text-emerald-500" /> {dummyPhone}
             </p>
-            <p className="text-[9px] font-bold text-emerald-600 mt-1">ID: HU-{farm.id}</p>
+            <p className="mt-1 text-[9px] font-bold text-emerald-600">
+              ID: HU-{farm.id}
+            </p>
           </div>
         </div>
       </div>
 
       <div className="flex flex-col items-start gap-1">
-        <span className="text-xl font-black uppercase tracking-tighter text-gray-900 leading-none block">
+        <span className="block text-xl font-black uppercase leading-none tracking-tighter text-gray-900">
           {farm.name}
         </span>
         {showIdBelow && (
-          <span className="font-mono text-[10px] font-bold text-gray-400 block pb-1">
+          <span className="block pb-1 font-mono text-[10px] font-bold text-gray-400">
             #{farm.id.toString().slice(0, 12)}
           </span>
         )}
@@ -109,62 +119,83 @@ const TooltipCell = ({ farm, showIdBelow }: { farm: Farm; showIdBelow?: boolean 
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="hidden md:block fixed pointer-events-none z-9999 bg-white/95 backdrop-blur-3xl border border-white/50 shadow-2xl rounded-[2.5rem] p-6 w-72"
+            className="z-9999 pointer-events-none fixed hidden w-72 rounded-[2.5rem] border border-white/50 bg-white/95 p-6 shadow-2xl backdrop-blur-3xl md:block"
             style={{
               left: mousePos.x,
               top: mousePos.y,
               // Intelligent repositioning based on viewport proximity
-              translateX: mousePos.x < 200 ? '5%' : mousePos.x > (typeof window !== 'undefined' ? window.innerWidth - 200 : 0) ? '-105%' : '-50%',
+              translateX:
+                mousePos.x < 200
+                  ? '5%'
+                  : mousePos.x >
+                      (typeof window !== 'undefined'
+                        ? window.innerWidth - 200
+                        : 0)
+                    ? '-105%'
+                    : '-50%',
               translateY: mousePos.y < 300 ? '20px' : '-110%',
             }}
           >
-             <div className="flex items-center gap-4 mb-4">
-               <div className="h-14 w-14 rounded-2xl bg-[#023b26] flex items-center justify-center text-emerald-400 text-2xl font-black shadow-inner">
-                 {farm.ownerName.charAt(0)}
-               </div>
-               <div className="flex-1 min-w-0">
-                 <p className="text-[14px] font-black uppercase text-gray-900 leading-none truncate mb-1">{farm.ownerName}</p>
-                 <span className="inline-block px-2 py-0.5 rounded-full bg-emerald-100 text-[8px] font-black uppercase tracking-widest text-emerald-700">
-                   Primary Lead
-                 </span>
-               </div>
-             </div>
+            <div className="mb-4 flex items-center gap-4">
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#023b26] text-2xl font-black text-emerald-400 shadow-inner">
+                {farm.ownerName.charAt(0)}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="mb-1 truncate text-[14px] font-black uppercase leading-none text-gray-900">
+                  {farm.ownerName}
+                </p>
+                <span className="inline-block rounded-full bg-emerald-100 px-2 py-0.5 text-[8px] font-black uppercase tracking-widest text-emerald-700">
+                  Primary Lead
+                </span>
+              </div>
+            </div>
 
-             <div className="flex flex-col gap-3 border-t border-gray-100 pt-4">
-               <div className="flex items-center gap-3">
-                 <div className="h-8 w-8 rounded-xl bg-gray-50 flex items-center justify-center shrink-0">
-                   <MdEmail size={16} className="text-emerald-500" />
-                 </div>
-                 <div className="flex-1 min-w-0">
-                   <p className="text-[8px] font-black uppercase text-gray-400 tracking-wider">Email Address</p>
-                   <p className="text-[11px] font-bold text-gray-700 truncate">{dummyEmail}</p>
-                 </div>
-               </div>
+            <div className="flex flex-col gap-3 border-t border-gray-100 pt-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gray-50">
+                  <MdEmail size={16} className="text-emerald-500" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[8px] font-black uppercase tracking-wider text-gray-400">
+                    Email Address
+                  </p>
+                  <p className="truncate text-[11px] font-bold text-gray-700">
+                    {dummyEmail}
+                  </p>
+                </div>
+              </div>
 
-               <div className="flex items-center gap-3">
-                 <div className="h-8 w-8 rounded-xl bg-gray-50 flex items-center justify-center shrink-0">
-                   <MdPhone size={16} className="text-emerald-500" />
-                 </div>
-                 <div className="flex-1 min-w-0">
-                   <p className="text-[8px] font-black uppercase text-gray-400 tracking-wider">Contact Number</p>
-                   <p className="text-[11px] font-bold text-gray-700 truncate">{dummyPhone}</p>
-                 </div>
-               </div>
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gray-50">
+                  <MdPhone size={16} className="text-emerald-500" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[8px] font-black uppercase tracking-wider text-gray-400">
+                    Contact Number
+                  </p>
+                  <p className="truncate text-[11px] font-bold text-gray-700">
+                    {dummyPhone}
+                  </p>
+                </div>
+              </div>
 
-               <div className="flex items-center gap-3">
-                 <div className="h-8 w-8 rounded-xl bg-gray-50 flex items-center justify-center shrink-0">
-                   <MdBadge size={16} className="text-emerald-500" />
-                 </div>
-                 <div className="flex-1 min-w-0">
-                   <p className="text-[8px] font-black uppercase text-gray-400 tracking-wider">Network Signature</p>
-                   <p className="text-[10px] font-black text-emerald-600 truncate uppercase mt-0.5">HU-{farm.id.toString().slice(0, 8)}</p>
-                 </div>
-               </div>
-             </div>
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gray-50">
+                  <MdBadge size={16} className="text-emerald-500" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[8px] font-black uppercase tracking-wider text-gray-400">
+                    Network Signature
+                  </p>
+                  <p className="mt-0.5 truncate text-[10px] font-black uppercase text-emerald-600">
+                    HU-{farm.id.toString().slice(0, 8)}
+                  </p>
+                </div>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
-
     </div>
   );
 };
@@ -192,7 +223,6 @@ export default function SuperAdminContent({
         (farm.ownerName || '').toLowerCase().includes(query)
     );
   }, [farms, searchQuery]);
-
   const totalPages = Math.ceil(filteredFarms.length / itemsPerPage);
 
   const paginatedFarms = useMemo(() => {
@@ -208,8 +238,16 @@ export default function SuperAdminContent({
 
   const pieData = [
     { name: 'Active Nodes', value: farmsCount, color: '#2563eb' }, // Blue-600
-    { name: 'Syncing', value: Math.max(1, Math.floor(farmsCount * 0.15)), color: '#60a5fa' }, // Blue-400
-    { name: 'Offline', value: Math.max(1, Math.floor(farmsCount * 0.05)), color: '#bfdbfe' }, // Blue-200
+    {
+      name: 'Syncing',
+      value: Math.max(1, Math.floor(farmsCount * 0.15)),
+      color: '#60a5fa',
+    }, // Blue-400
+    {
+      name: 'Offline',
+      value: Math.max(1, Math.floor(farmsCount * 0.05)),
+      color: '#bfdbfe',
+    }, // Blue-200
   ];
 
   const handleDelete = async (id: number) => {
@@ -278,13 +316,13 @@ export default function SuperAdminContent({
           <AddWorkerForm />
           <TransitionLink
             href="/dashboard"
-            className="flex items-center justify-center rounded-xl bg-emerald-600 px-6 py-3 text-center font-bold text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 w-auto"
+            className="flex w-auto items-center justify-center rounded-xl bg-emerald-600 px-6 py-3 text-center font-bold text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700"
           >
             Go to Dashboard
           </TransitionLink>
           <TransitionLink
             href="/dashboard/users"
-            className="flex items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 px-6 py-3 text-center font-bold text-emerald-600 shadow-sm transition-colors hover:bg-emerald-100 w-auto"
+            className="flex w-auto items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 px-6 py-3 text-center font-bold text-emerald-600 shadow-sm transition-colors hover:bg-emerald-100"
           >
             All Participants
           </TransitionLink>
@@ -337,7 +375,7 @@ export default function SuperAdminContent({
             />
           </div>
 
-          <div className="flex flex-col  gap-6">
+          <div className="flex flex-col gap-6">
             <PremiumChart
               title="Sector Distribution"
               subtitle="Resource allocation by zone"
@@ -383,7 +421,7 @@ export default function SuperAdminContent({
                   className="h-16 w-full rounded-2xl border border-white/20 bg-white/60 pl-14 pr-6 font-bold text-gray-900 shadow-sm outline-none ring-offset-2 transition-all focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
-              <div className="flex flex-wrap w-full items-center justify-stretch gap-4 sm:w-auto">
+              <div className="flex w-full flex-wrap items-center justify-stretch gap-4 sm:w-auto">
                 <TransitionLink
                   href="/dashboard"
                   className="flex h-16 w-full items-center justify-center whitespace-nowrap rounded-2xl bg-emerald-600 px-6 text-center font-bold text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700 sm:w-auto"
@@ -563,11 +601,23 @@ export default function SuperAdminContent({
             {totalPages > 1 && (
               <div className="mt-12 flex items-center justify-between border-t border-gray-100 pt-8">
                 <p className="text-xs font-bold text-gray-400">
-                  Showing <span className="text-gray-900">{((currentPage - 1) * itemsPerPage) + 1}</span> to <span className="text-gray-900">{Math.min(currentPage * itemsPerPage, filteredFarms.length)}</span> of <span className="text-gray-900">{filteredFarms.length}</span> nodes
+                  Showing{' '}
+                  <span className="text-gray-900">
+                    {(currentPage - 1) * itemsPerPage + 1}
+                  </span>{' '}
+                  to{' '}
+                  <span className="text-gray-900">
+                    {Math.min(currentPage * itemsPerPage, filteredFarms.length)}
+                  </span>{' '}
+                  of{' '}
+                  <span className="text-gray-900">{filteredFarms.length}</span>{' '}
+                  nodes
                 </p>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                    onClick={() =>
+                      setCurrentPage(prev => Math.max(1, prev - 1))
+                    }
                     disabled={currentPage === 1}
                     className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-100 bg-white text-gray-400 transition-all hover:border-emerald-500 hover:text-emerald-500 disabled:opacity-30 disabled:hover:border-gray-100 disabled:hover:text-gray-400"
                   >
@@ -581,7 +631,7 @@ export default function SuperAdminContent({
                       className={`flex h-10 w-10 items-center justify-center rounded-xl text-xs font-black transition-all ${
                         currentPage === i + 1
                           ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20'
-                          : 'bg-white border border-gray-100 text-gray-400 hover:border-emerald-500 hover:text-emerald-500'
+                          : 'border border-gray-100 bg-white text-gray-400 hover:border-emerald-500 hover:text-emerald-500'
                       }`}
                     >
                       {i + 1}
@@ -589,7 +639,9 @@ export default function SuperAdminContent({
                   ))}
 
                   <button
-                    onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                    onClick={() =>
+                      setCurrentPage(prev => Math.min(totalPages, prev + 1))
+                    }
                     disabled={currentPage === totalPages}
                     className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-100 bg-white text-gray-400 transition-all hover:border-emerald-500 hover:text-emerald-500 disabled:opacity-30 disabled:hover:border-gray-100 disabled:hover:text-gray-400"
                   >

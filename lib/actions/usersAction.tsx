@@ -1,5 +1,6 @@
 'use server';
 
+import { cookies } from "next/headers";
 import { API_BASE_URL } from "@/lib/api";
 import { authFetch } from "@/lib/authFetch";
 
@@ -46,6 +47,16 @@ export async function getUserByIdAction(id: string | number) {
 
         const data = await safeParse(res);
         if (!res.ok) throw new Error(data?.message || "Failed to fetch user");
+
+        if (data?.data?.userRole) {
+            const cookieStore = await cookies();
+            cookieStore.set("userRole", data.data.userRole, {
+                httpOnly: true,
+                secure: true,
+                path: "/",
+                maxAge: 60 * 60 * 24 * 7,
+            });
+        }
 
         return data;
     } catch (error) {

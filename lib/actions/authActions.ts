@@ -23,14 +23,16 @@ export async function loginAction({ email, password }: any) {
   formData.append('Email', email);
   formData.append('Password', password);
 
-  const res = await fetch(`https://farmiq.runasp.net/api/v1/authentication/signin`, {
-    method: 'POST',
-    body: formData,
-    cache: 'no-store',
-  });
+  const res = await fetch(
+    `https://farmiq.runasp.net/api/v1/authentication/signin`,
+    {
+      method: 'POST',
+      body: formData,
+      cache: 'no-store',
+    }
+  );
 
   const data = await res.json();
-  console.log(data);
 
   if (!res.ok) {
     throw new Error(data.message || 'Login failed');
@@ -77,7 +79,6 @@ export async function refreshTokenAction() {
   });
 
   const data = await res.json();
-  console.log(data);
 
   if (!res.ok) {
     throw new Error(data.message || 'Failed to refresh token');
@@ -125,7 +126,11 @@ export async function sendResetOtpAction(email: string) {
 // ------------------------------------------------------
 // ✅ Reset Password (Forgot Password Step 2)
 // ------------------------------------------------------
-export async function resetPasswordAction({ email, resetCode, newPassword }: any) {
+export async function resetPasswordAction({
+  email,
+  resetCode,
+  newPassword,
+}: any) {
   const res = await fetch(`${API_BASE_URL}/authentication/reset-password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

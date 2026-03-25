@@ -12,7 +12,7 @@ const Hero = () => {
       className="relative flex min-h-screen overflow-x-clip flex-col items-center justify-start bg-[#03271a] pt-10 text-white"
     >
       {/* Pixel background */}
-      <figure className="absolute inset-0 top-10 m-auto h-full w-full">
+      {/* <figure className="absolute inset-0 top-10 m-auto h-full w-full">
         <PixelBlast
           variant="square"
           pixelSize={6}
@@ -32,7 +32,7 @@ const Hero = () => {
           edgeFade={0.25}
           transparent
         />
-      </figure>
+      </figure> */}
       <figure className="absolute inset-0 scale-110 top-0 m-auto h-full w-full">
         <Image
           src="/images/landingPage/heroOverlay.svg"

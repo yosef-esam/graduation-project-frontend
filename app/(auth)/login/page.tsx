@@ -8,6 +8,7 @@ import { TransitionLink } from "@/components/TransitionLink";
 import { MdEmail, MdLock, MdArrowForward, MdShield, MdSensors, MdAutoGraph } from "react-icons/md";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { getUserByIdAction } from "@/lib/actions/usersAction";
 
 const LoginPage = () => {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -26,7 +27,14 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      await loginAction(form);
+      const loginres = await loginAction(form);
+      const userid = loginres.data.userId;
+      const user = await getUserByIdAction(userid);
+      if (user.data.userRole === "SysAdmin") {
+        router.push("/superdashboard");
+      } else {
+        router.push("/dashboard");
+      }
       Swal.fire({
         toast: true,
         position: 'top-end',
@@ -38,7 +46,7 @@ const LoginPage = () => {
         background: '#023b26',
         color: '#ffffff',
       });
-      
+
       if (typeof window !== "undefined" && (window as any).triggerExitTransition) {
         try {
           await (window as any).triggerExitTransition();
@@ -47,11 +55,7 @@ const LoginPage = () => {
         }
       }
 
-      if (form.email === "admin@farmiq.com" && form.password === "Admin123#") {
-        router.push("/superdashboard");
-      } else {
-        router.push("/dashboard");
-      }
+
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : 'An error occurred';
@@ -79,45 +83,45 @@ const LoginPage = () => {
     >
       {/* Side Part Integrated */}
       <div className="hidden lg:flex w-[40%] relative bg-[#023b26] overflow-hidden p-16 flex-col justify-between">
-          <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-emerald-500/20 via-transparent to-transparent opacity-50" />
-          <div className="absolute -bottom-40 -left-40 w-full h-full bg-emerald-400/5 rounded-full blur-[120px]" />
+        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_top_right,var(--tw-gradient-stops))] from-emerald-500/20 via-transparent to-transparent opacity-50" />
+        <div className="absolute -bottom-40 -left-40 w-full h-full bg-emerald-400/5 rounded-full blur-[120px]" />
 
-          <div className="relative z-10 flex items-center gap-5">
-              <Image src="/images/logo.svg" alt="FarmIQ" width={140} height={40} className="h-16 w-auto object-contain" priority />
-              <div className="h-8 w-px bg-white/10" />
-              <span className="text-sm font-black uppercase tracking-[0.4em] text-white/30">FarmIQ</span>
-          </div>
+        <div className="relative z-10 flex items-center gap-5">
+          <Image src="/images/logo.svg" alt="FarmIQ" width={140} height={40} className="h-16 w-auto object-contain" priority />
+          <div className="h-8 w-px bg-white/10" />
+          <span className="text-sm font-black uppercase tracking-[0.4em] text-white/30">FarmIQ</span>
+        </div>
 
-          <div className="relative z-10">
-              <h1 className="text-5xl font-black text-white leading-tight uppercase tracking-tighter mb-8">
-                  Operational <br />
-                  <span className="text-emerald-400">Authority</span> <br />
-                  Control.
-              </h1>
-              <p className="max-w-xs text-emerald-100/30 font-bold leading-relaxed mb-12 text-[10px] uppercase tracking-[0.2em]">
-                  Secure biometrics. Precision telemetry. Total authority.
-              </p>
+        <div className="relative z-10">
+          <h1 className="text-5xl font-black text-white leading-tight uppercase tracking-tighter mb-8">
+            Operational <br />
+            <span className="text-emerald-400">Authority</span> <br />
+            Control.
+          </h1>
+          <p className="max-w-xs text-emerald-100/30 font-bold leading-relaxed mb-12 text-[10px] uppercase tracking-[0.2em]">
+            Secure biometrics. Precision telemetry. Total authority.
+          </p>
 
-              <div className="grid grid-cols-2 gap-5">
-                  {[
-                      { label: 'Asset Nodes', value: '42.8k+', icon: <MdSensors /> },
-                      { label: 'Sync Rate', value: '99.9%', icon: <MdShield /> },
-                  ].map((stat, i) => (
-                      <div key={i} className="p-6 rounded-3xl bg-white/5 border border-white/5 backdrop-blur-xl">
-                          <div className="flex items-center gap-2 mb-2 text-emerald-400">
-                              {stat.icon}
-                              <span className="text-[8px] font-black uppercase tracking-widest text-emerald-100/20">{stat.label}</span>
-                          </div>
-                          <span className="text-xl font-black text-white tracking-tighter uppercase">{stat.value}</span>
-                      </div>
-                  ))}
+          <div className="grid grid-cols-2 gap-5">
+            {[
+              { label: 'Asset Nodes', value: '42.8k+', icon: <MdSensors /> },
+              { label: 'Sync Rate', value: '99.9%', icon: <MdShield /> },
+            ].map((stat, i) => (
+              <div key={i} className="p-6 rounded-3xl bg-white/5 border border-white/5 backdrop-blur-xl">
+                <div className="flex items-center gap-2 mb-2 text-emerald-400">
+                  {stat.icon}
+                  <span className="text-[8px] font-black uppercase tracking-widest text-emerald-100/20">{stat.label}</span>
+                </div>
+                <span className="text-xl font-black text-white tracking-tighter uppercase">{stat.value}</span>
               </div>
+            ))}
           </div>
+        </div>
 
-          <div className="relative z-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-emerald-100/10">
-              <div className="h-1.5 w-1.5 rounded-full bg-emerald-500/50" />
-              Authority_Node: Alpha
-          </div>
+        <div className="relative z-10 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-emerald-100/10">
+          <div className="h-1.5 w-1.5 rounded-full bg-emerald-500/50" />
+          Authority_Node: Alpha
+        </div>
       </div>
 
       {/* Main Form Part */}
@@ -196,8 +200,8 @@ const LoginPage = () => {
             </TransitionLink>
           </p>
           <div className="flex items-center gap-3 text-gray-200 grayscale opacity-30">
-             <MdShield size={20} />
-             <MdAutoGraph size={20} />
+            <MdShield size={20} />
+            <MdAutoGraph size={20} />
           </div>
         </div>
       </div>

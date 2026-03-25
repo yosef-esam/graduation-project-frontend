@@ -10,24 +10,25 @@ import Swal from 'sweetalert2';
 import CustomSelect from '@/lib/utils/CustomSelect';
 
 const SPECIES_OPTIONS = [
-    { id: 'Cattle', label: 'Cattle (Bovine)' },
-    { id: 'Sheep', label: 'Sheep (Ovine)' },
-    { id: 'Goats', label: 'Goats (Caprine)' },
-    { id: 'Horses', label: 'Horses (Equine)' },
-    { id: 'Other', label: 'Other/Custom' },
+  { id: 'Cattle', label: 'Cattle (Bovine)' },
+  { id: 'Sheep', label: 'Sheep (Ovine)' },
+  { id: 'Goats', label: 'Goats (Caprine)' },
+  { id: 'Horses', label: 'Horses (Equine)' },
+  { id: 'Other', label: 'Other/Custom' },
 ];
 
 export default function AddAnimalForm() {
   const [isPending, startTransition] = useTransition();
   const [dateOfBirth, setDateOfBirth] = useState<Date | null>(new Date());
   const [species, setSpecies] = useState<string | number>('Cattle');
-  
+
   const [formData, setFormData] = useState({
+    deviceId: '',
     name: '',
-    age: '',
-    weight: '',
+    species: '',
+    weight: 0,
+    dateOfBirth: '',
     notes: '',
-    deviceId: ''
   });
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +39,7 @@ export default function AddAnimalForm() {
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     const value = e.target.value;
     if (Number(value) >= 0 || value === '') {
-        setFormData({ ...formData, [field]: value });
+      setFormData({ ...formData, [field]: value });
     }
   };
 
@@ -48,7 +49,6 @@ export default function AddAnimalForm() {
     const data = {
       name: formData.name,
       species: species.toString(),
-      age: Number(formData.age),
       weight: Number(formData.weight),
       dateOfBirth: dateOfBirth ? dateOfBirth.toISOString().split('T')[0] : '',
       notes: formData.notes,
@@ -57,7 +57,7 @@ export default function AddAnimalForm() {
 
     startTransition(async () => {
       try {
-        await createAnimal(data);
+        await createAnimal(data as any);
         Swal.fire({
           toast: true,
           position: 'top-end',
@@ -68,7 +68,7 @@ export default function AddAnimalForm() {
           background: '#023b26',
           color: '#ffffff',
         });
-        setFormData({ name: '', age: '', weight: '', notes: '', deviceId: '' });
+        setFormData({ name: '', weight: 0, notes: '', deviceId: '', species: '', dateOfBirth: '' });
         setDateOfBirth(new Date());
         setSpecies('Cattle');
       } catch (err) {
@@ -126,7 +126,7 @@ export default function AddAnimalForm() {
                 />
               </div>
             </div>
-            
+
             <div className="space-y-3">
               <label className="text-[11px] font-black uppercase tracking-[0.2em] text-emerald-600 pl-1">Primary Identifier</label>
               <div className="relative group">
@@ -151,22 +151,6 @@ export default function AddAnimalForm() {
                 className="w-full"
                 placeholder="Select Species"
               />
-            </div>
-
-            <div className="space-y-3">
-              <label className="text-[11px] font-black uppercase tracking-[0.2em] text-emerald-600 pl-1">Age (Months)</label>
-              <div className="relative group">
-                <MdHeight className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 z-10 group-focus-within:text-emerald-500 transition-colors" size={20} />
-                <input
-                  name="age"
-                  type="number"
-                  min="0"
-                  placeholder="0"
-                  value={formData.age}
-                  onChange={(e) => handleNumberChange(e, 'age')}
-                  className="h-16 w-full rounded-2xl border border-gray-100 bg-white/50 pl-14 pr-6 font-bold text-gray-900 outline-none transition-all focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 shadow-sm"
-                />
-              </div>
             </div>
 
             <div className="space-y-3">
@@ -195,9 +179,9 @@ export default function AddAnimalForm() {
                 value={dateOfBirth || ''}
                 onChange={([date]) => setDateOfBirth(date)}
                 options={{
-                    dateFormat: "Y-m-d",
-                    disableMobile: true,
-                    maxDate: "today",
+                  dateFormat: "Y-m-d",
+                  disableMobile: true,
+                  maxDate: "today",
                 }}
                 className="h-16 w-full rounded-2xl border border-gray-100 bg-white/50 pl-14 pr-6 font-bold text-gray-900 outline-none transition-all focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 shadow-sm cursor-pointer"
                 placeholder="Select birth date (no future dates)..."

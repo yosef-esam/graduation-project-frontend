@@ -94,8 +94,10 @@ export async function createFarm(data: {
 export async function updateFarm(
     id: number,
     data: {
-        farmName: string;
+        name: string;
+        location: string;
         ownerUserId: number;
+        isActive: boolean;
     }
 ) {
     const res = await authFetch(`${API_BASE_URL}/farms/${id}`, {

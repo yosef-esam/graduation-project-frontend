@@ -71,6 +71,7 @@ export default function AddAnimalForm() {
         setFormData({ name: '', weight: 0, notes: '', deviceId: '', species: '', dateOfBirth: '' });
         setDateOfBirth(new Date());
         setSpecies('Cattle');
+
       } catch (err) {
         console.error(err);
         Swal.fire({

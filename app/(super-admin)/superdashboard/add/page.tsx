@@ -44,7 +44,7 @@ export default function AddFarmPage() {
             await createFarm({
                 farmName,
                 ownerUserId: Number(ownerUserId),
-                location,
+                location
             });
             Swal.fire({
                 toast: true,
@@ -170,7 +170,8 @@ export default function AddFarmPage() {
                                 value={location}
                                 onChange={e => setLocation(e.target.value)}
                                 className="h-14 w-full rounded-2xl border border-gray-50 bg-gray-50/50 pl-12 pr-6 font-bold text-gray-900 shadow-inner outline-none transition-all focus:ring-2 focus:ring-emerald-500"
-                                placeholder="Farm Location"
+                                placeholder="Location"
+                                required
                             />
                         </div>
                     </div>

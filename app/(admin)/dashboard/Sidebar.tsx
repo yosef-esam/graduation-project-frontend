@@ -9,6 +9,7 @@ import {
   MdAdd,
   MdNotificationsActive,
   MdBarChart,
+  MdChat,
   MdSettings,
   MdClose
 } from "react-icons/md";
@@ -26,6 +27,7 @@ export default function Sidebar({ isOpen, setIsOpenAction }: { isOpen?: boolean;
     { name: "HEALTH ALERTS", icon: <MdNotificationsActive size={22} />, href: "/dashboard/alerts" },
     { name: "ANALYTICS", icon: <MdBarChart size={22} />, href: "/dashboard/analytics" },
     { name: "PERSONNEL", icon: <MdPeople size={22} />, href: "/dashboard/users" },
+    { name: "FARM CHAT", icon: <MdChat size={22} />, href: "/dashboard/chat" },
     { name: "SETTINGS", icon: <MdSettings size={22} />, href: "/dashboard/settings" },
   ];
 

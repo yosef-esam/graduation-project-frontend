@@ -166,3 +166,9 @@ export async function checkAuthStatus() {
     isAuthenticated: !!accessToken,
   };
 }
+
+// ------------------- Get Access Token (for client-side SignalR) -------------------
+export async function getAccessToken(): Promise<string | null> {
+  const cookieStore = await cookies();
+  return cookieStore.get('accessToken')?.value ?? null;
+}

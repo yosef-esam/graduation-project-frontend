@@ -128,9 +128,9 @@ const TooltipCell = ({
                 mousePos.x < 200
                   ? '5%'
                   : mousePos.x >
-                      (typeof window !== 'undefined'
-                        ? window.innerWidth - 200
-                        : 0)
+                    (typeof window !== 'undefined'
+                      ? window.innerWidth - 200
+                      : 0)
                     ? '-105%'
                     : '-50%',
               translateY: mousePos.y < 300 ? '20px' : '-110%',
@@ -313,6 +313,11 @@ export default function SuperAdminContent({
 
       <div className="mx-auto max-w-screen-2xl space-y-10">
         <div className="flex flex-wrap items-center justify-end gap-4">
+          <a href="/superdashboard/add">
+            <button className="flex w-auto items-center justify-center rounded-xl bg-emerald-600 px-6 py-3 text-center font-bold text-white shadow-lg shadow-emerald-600/20 transition-colors hover:bg-emerald-700">
+              Add Farm
+            </button>
+          </a>
           <AddWorkerForm />
           <TransitionLink
             href="/dashboard"
@@ -628,11 +633,10 @@ export default function SuperAdminContent({
                     <button
                       key={i + 1}
                       onClick={() => setCurrentPage(i + 1)}
-                      className={`flex h-10 w-10 items-center justify-center rounded-xl text-xs font-black transition-all ${
-                        currentPage === i + 1
+                      className={`flex h-10 w-10 items-center justify-center rounded-xl text-xs font-black transition-all ${currentPage === i + 1
                           ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20'
                           : 'border border-gray-100 bg-white text-gray-400 hover:border-emerald-500 hover:text-emerald-500'
-                      }`}
+                        }`}
                     >
                       {i + 1}
                     </button>

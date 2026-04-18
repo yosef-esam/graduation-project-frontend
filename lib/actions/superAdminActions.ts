@@ -64,6 +64,7 @@ export async function getFarmById(id: number) {
 export async function createFarm(data: {
     farmName: string;
     ownerUserId: number;
+    location?: string;
 }) {
     const res = await authFetch(`${API_BASE_URL}/farms`, {
         method: "POST",
@@ -85,7 +86,7 @@ export async function createFarm(data: {
     }
 
     if (!res.ok) throw new Error(result.message || "Failed to create farm");
-    
+
     revalidatePath("/superdashboard");
     return result.data || result;
 }
@@ -120,7 +121,7 @@ export async function updateFarm(
     }
 
     if (!res.ok) throw new Error(result.message || "Failed to update farm");
-    
+
     revalidatePath("/superdashboard");
     return result.data || result;
 }

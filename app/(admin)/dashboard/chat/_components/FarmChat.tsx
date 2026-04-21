@@ -121,7 +121,7 @@ function nextId() {
 }
 
 // ── Hub URL ──────────────────────────────────────────────────
-const HUB_URL = 'https://farmiq.runasp.net/hubs/farm-chat';
+const HUB_URL = `${process.env.NEXT_PUBLIC_HUB_URL}`;
 
 // ═══════════════════════════════════════════════════════════════
 // Component

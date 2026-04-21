@@ -63,7 +63,7 @@ export default function EditFarmPopup({ farm }: { farm: Farm }) {
         color: '#ffffff',
       });
       setIsOpen(false);
-      router.refresh();
+      window.location.reload();
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Update failed';
       Swal.fire({

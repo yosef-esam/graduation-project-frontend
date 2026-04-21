@@ -1,5 +1,4 @@
 'use server';
-
 import { cookies } from 'next/headers';
 import { API_BASE_URL } from '@/lib/api.js';
 
@@ -166,4 +165,10 @@ export async function checkAuthStatus() {
   return {
     isAuthenticated: !!accessToken,
   };
+}
+
+// ------------------- Get Access Token (for client-side SignalR) -------------------
+export async function getAccessToken(): Promise<string | null> {
+  const cookieStore = await cookies();
+  return cookieStore.get('accessToken')?.value ?? null;
 }
